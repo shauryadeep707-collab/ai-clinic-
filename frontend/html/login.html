@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — AI Health Clinic</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background: var(--bg-light); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1.5rem;">
+
+  <div style="background: white; border-radius: var(--radius-lg); border: 1px solid var(--border-color); width: 100%; max-width: 440px; padding: 2.5rem; box-shadow: var(--shadow-lg);">
+    
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <a href="/static/html/index.html" style="display: inline-flex; align-items: center; gap: 0.75rem; font-size: 1.4rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.5rem;">
+        <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <span>AI Health Clinic</span>
+      </a>
+      <h2 style="font-size: 1.35rem; color: var(--primary-navy); margin-top: 1rem;">Welcome Back</h2>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">Secure access for Patients, Doctors, and Admins</p>
+    </div>
+
+    <!-- Quick Role Switcher Buttons for Demo Convenience -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+      <button type="button" class="btn btn-outline btn-sm" onclick="quickFill('patient@clinic.com', 'Password@123')">Patient</button>
+      <button type="button" class="btn btn-outline btn-sm" onclick="quickFill('doctor@clinic.com', 'Password@123')">Doctor</button>
+      <button type="button" class="btn btn-outline btn-sm" onclick="quickFill('admin@clinic.com', 'Password@123')">Admin</button>
+    </div>
+
+    <form onsubmit="handleLogin(event)">
+      <div style="margin-bottom: 1.25rem;">
+        <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.4rem;">Email Address</label>
+        <input type="email" id="login-email" required placeholder="name@example.com" value="patient@clinic.com" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.92rem; outline: none;">
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+          <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">Password</label>
+          <a href="/static/html/reset-password.html" style="font-size: 0.8rem; color: var(--medical-teal); font-weight: 600;">Forgot Password?</a>
+        </div>
+        <input type="password" id="login-password" required placeholder="••••••••" value="Password@123" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.92rem; outline: none;">
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" style="padding: 0.85rem; font-size: 0.95rem;">
+        <i class="fa-solid fa-right-to-bracket"></i> Sign In to Account
+      </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 1.75rem; font-size: 0.88rem; color: var(--text-muted);">
+      Don't have an account yet? <a href="/static/html/register.html" style="color: var(--medical-teal); font-weight: 600;">Create Account</a>
+    </div>
+
+    <div style="margin-top: 1.5rem; text-align: center;">
+      <a href="/static/html/index.html" style="font-size: 0.82rem; color: var(--text-muted);"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+    </div>
+
+  </div>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/auth.js"></script>
+  <script>
+    function quickFill(email, pwd) {
+      document.getElementById('login-email').value = email;
+      document.getElementById('login-password').value = pwd;
+    }
+  </script>
+</body>
+</html>

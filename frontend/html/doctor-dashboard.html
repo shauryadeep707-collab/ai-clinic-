@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Dashboard — AI Health Clinic</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="portal-container">
+    
+    <!-- Sidebar -->
+    <aside class="portal-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <span>AI Health Clinic</span>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li><a href="/static/html/doctor-dashboard.html" class="active"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+        <li><a href="/static/html/doctor-dashboard.html"><i class="fa-solid fa-users"></i> My Patients</a></li>
+        <li><a href="/static/html/doctor-dashboard.html"><i class="fa-solid fa-calendar-check"></i> Appointments</a></li>
+        <li><a href="/static/html/doctor-register.html"><i class="fa-solid fa-certificate"></i> Verification</a></li>
+        <li><a href="/static/html/settings.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" class="btn-logout" style="color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="portal-main">
+      
+      <!-- Top Header -->
+      <header class="portal-header">
+        <div class="header-search">
+          <i class="fa-solid fa-magnifying-glass header-search-icon"></i>
+          <input type="text" placeholder="Search patients, appointments, reports...">
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+          <div class="user-profile-badge" onclick="window.location.href='/static/html/settings.html'">
+            <div class="user-avatar" style="background:#DEF7EC; color:#03543F;">AV</div>
+            <div class="user-info">
+              <div class="user-name">Dr. Amit Verma</div>
+              <div class="user-role">General Physician</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content Body (Screen 8) -->
+      <main class="content-body">
+        
+        <div style="margin-bottom: 2rem;">
+          <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--primary-navy);">Welcome, Dr. Amit</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Here's an overview of your clinical practice.</p>
+        </div>
+
+        <!-- 4 Stats Cards (Screen 8) -->
+        <div class="grid-4">
+          
+          <div class="stat-card">
+            <div class="stat-icon" style="background: #EFF6FF; color: #2563EB;">
+              <i class="fa-regular fa-calendar-check"></i>
+            </div>
+            <div class="stat-value" id="doc-today-count">12</div>
+            <div class="stat-label">Today's Appointments</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: #DEF7EC; color: #059669;">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="stat-value" id="doc-patients-count">48</div>
+            <div class="stat-label">Total Patients</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: #FEF3C7; color: #D97706;">
+              <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <div class="stat-value">6</div>
+            <div class="stat-label">New Patients</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: #FEE2E2; color: #DC2626;">
+              <i class="fa-solid fa-file-medical"></i>
+            </div>
+            <div class="stat-value">24</div>
+            <div class="stat-label">Pending Reports</div>
+          </div>
+
+        </div>
+
+        <!-- Lower Section: Appointments & Reports (Screen 8) -->
+        <div class="grid-2">
+          
+          <!-- Today's Appointments -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Today's Appointments</h3>
+              <a href="#" class="card-action-link">See All</a>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.85rem;" id="doc-appts-list">
+              
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; background: var(--bg-light); border-radius: var(--radius-sm);">
+                <div>
+                  <div style="font-weight: 700; color: var(--primary-navy); font-size: 0.95rem;">10:00 AM • Rohan Sharma</div>
+                  <div style="font-size: 0.8rem; color: var(--medical-teal); font-weight: 600;">Online Consultation</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="API.toast('Opening online consultation room...', 'info')">View</button>
+              </div>
+
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; background: var(--bg-light); border-radius: var(--radius-sm);">
+                <div>
+                  <div style="font-weight: 700; color: var(--primary-navy); font-size: 0.95rem;">11:30 AM • Anjali Mehta</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Follow-up Consultation</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="API.toast('Opening patient record...', 'info')">View</button>
+              </div>
+
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; background: var(--bg-light); border-radius: var(--radius-sm);">
+                <div>
+                  <div style="font-weight: 700; color: var(--primary-navy); font-size: 0.95rem;">02:00 PM • Vikram Patel</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">New Patient Intake</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="API.toast('Opening patient record...', 'info')">View</button>
+              </div>
+
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; background: var(--bg-light); border-radius: var(--radius-sm);">
+                <div>
+                  <div style="font-weight: 700; color: var(--primary-navy); font-size: 0.95rem;">04:00 PM • Neha Singh</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Routine Follow-up</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="API.toast('Opening patient record...', 'info')">View</button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Recent Patient Reports -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Recent Patient Reports</h3>
+              <a href="#" class="card-action-link">See All</a>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+              
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; background: var(--bg-light); border-radius: var(--radius-sm);">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <div style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
+                    <i class="fa-solid fa-droplet"></i>
+                  </div>
+                  <div>
+                    <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary-navy);">Blood Test Report</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted);">Rohan Sharma • 15 Oct 2024</div>
+                  </div>
+                </div>
+                <a href="/static/html/medical-reports.html?id=1" class="btn btn-outline btn-sm">View</a>
+              </div>
+
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; background: var(--bg-light); border-radius: var(--radius-sm);">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <div style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: #F0FDF4; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
+                    <i class="fa-solid fa-x-ray"></i>
+                  </div>
+                  <div>
+                    <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary-navy);">X-Ray Report</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted);">Anjali Mehta • 10 Oct 2024</div>
+                  </div>
+                </div>
+                <a href="/static/html/medical-reports.html?id=2" class="btn btn-outline btn-sm">View</a>
+              </div>
+
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; background: var(--bg-light); border-radius: var(--radius-sm);">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <div style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: #FFF7ED; color: #EA580C; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
+                    <i class="fa-solid fa-prescription"></i>
+                  </div>
+                  <div>
+                    <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary-navy);">Prescription</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted);">Vikram Patel • 08 Oct 2024</div>
+                  </div>
+                </div>
+                <a href="/static/html/medical-reports.html?id=4" class="btn btn-outline btn-sm">View</a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/auth.js"></script>
+</body>
+</html>

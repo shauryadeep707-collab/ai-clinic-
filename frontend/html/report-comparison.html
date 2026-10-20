@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Comparison & Historical Trends — AI Health Clinic</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="portal-container">
+    <aside class="portal-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <span>AI Health Clinic</span>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li><a href="/static/html/patient-dashboard.html"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+        <li><a href="/static/html/ai-consultation.html"><i class="fa-solid fa-robot"></i> AI Consultation</a></li>
+        <li><a href="/static/html/medical-reports.html"><i class="fa-solid fa-file-medical"></i> Medical Reports</a></li>
+        <li><a href="/static/html/timeline.html"><i class="fa-solid fa-timeline"></i> Medical History</a></li>
+        <li><a href="/static/html/report-comparison.html" class="active"><i class="fa-solid fa-chart-line"></i> Compare Reports</a></li>
+        <li><a href="/static/html/doctors.html"><i class="fa-solid fa-user-doctor"></i> Find a Doctor</a></li>
+        <li><a href="/static/html/pharmacy-connect.html"><i class="fa-solid fa-prescription-bottle-medical"></i> Pharmacy Connect</a></li>
+        <li><a href="/static/html/reminders.html"><i class="fa-solid fa-bell"></i> Medicine Reminders</a></li>
+        <li><a href="/static/html/settings.html"><i class="fa-solid fa-gear"></i> Profile & Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" class="btn-logout" style="color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <div class="portal-main">
+      <header class="portal-header">
+        <div style="font-weight: 600; color: var(--primary-navy);">Longitudinal Diagnostic Lab Comparison</div>
+        <div class="user-profile-badge" onclick="window.location.href='/static/html/settings.html'">
+          <div class="user-avatar" id="header-user-avatar">RS</div>
+          <div class="user-info">
+            <div class="user-name" id="header-user-name">Rohan Sharma</div>
+            <div class="user-role" id="header-user-role">Patient</div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <div style="margin-bottom: 2rem;">
+          <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--primary-navy);">Report Comparison</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Track equivalent lab metrics across past reports and understand what changes mean.</p>
+        </div>
+
+        <!-- Longitudinal Cards Grid -->
+        <div class="grid-3">
+          
+          <!-- Metric 1: Hemoglobin -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Hemoglobin</h3>
+              <span class="badge badge-success">Healthy</span>
+            </div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: var(--primary-navy); margin-bottom: 0.5rem;">
+              14.2 <span style="font-size: 0.9rem; font-weight: 500; color: var(--text-muted);">g/dL</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Clinical Reference: 13.0 - 17.0 g/dL</p>
+            <div style="background: var(--bg-light); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.82rem; color: var(--text-main);">
+              <i class="fa-solid fa-chart-line" style="color: var(--medical-teal);"></i> Stable within normal physiological limits across blood test history.
+            </div>
+          </div>
+
+          <!-- Metric 2: Fasting Blood Sugar -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Fasting Blood Sugar</h3>
+              <span class="badge badge-success">Normal</span>
+            </div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: var(--primary-navy); margin-bottom: 0.5rem;">
+              94.0 <span style="font-size: 0.9rem; font-weight: 500; color: var(--text-muted);">mg/dL</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Clinical Reference: 70.0 - 99.0 mg/dL</p>
+            <div style="background: var(--bg-light); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.82rem; color: var(--text-main);">
+              <i class="fa-solid fa-chart-line" style="color: var(--medical-teal);"></i> Healthy baseline fasting glucose level maintained.
+            </div>
+          </div>
+
+          <!-- Metric 3: Vitamin D -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Vitamin D (25-OH)</h3>
+              <span class="badge badge-danger">Below Normal</span>
+            </div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: #DC2626; margin-bottom: 0.5rem;">
+              18.2 <span style="font-size: 0.9rem; font-weight: 500; color: var(--text-muted);">ng/mL</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Clinical Reference: 30.0 - 100.0 ng/mL</p>
+            <div style="background: #FEE2E2; padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.82rem; color: #991B1B;">
+              <i class="fa-solid fa-triangle-exclamation"></i> Moderate insufficiency. Physician recommended cholecalciferol weekly.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- AI Guidance On How to Talk to Doctor -->
+        <div class="card" style="margin-top: 2rem;">
+          <h3 class="card-title" style="margin-bottom: 1rem;">AI Clinical Grounding & Patient Discussion Guide</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; font-size: 0.9rem; line-height: 1.6;">
+            <div>
+              <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 0.95rem;">What does this comparison generally mean?</h4>
+              <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                Your general blood parameters and oxygen-carrying capacity (Hemoglobin, RBCs) are consistent and healthy. The only actionable biomarker is your Vitamin D (18.2 ng/mL), which is below normal and is common with indoor lifestyle.
+              </p>
+              <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 0.95rem;">Limitations of Automated Comparison</h4>
+              <p style="color: var(--text-muted);">
+                A single numerical trend should never be used to self-diagnose. Diagnostic lab reference ranges may vary slightly depending on assay methodology (e.g. ECLIA vs RIA).
+              </p>
+            </div>
+
+            <div style="background: var(--bg-light); padding: 1.25rem; border-radius: var(--radius-md);">
+              <h4 style="color: var(--medical-teal); margin-bottom: 0.75rem; font-size: 0.95rem;">
+                <i class="fa-solid fa-comments"></i> Questions to ask your doctor:
+              </h4>
+              <ul style="list-style-type: decimal; padding-left: 1.25rem; color: var(--text-main); font-size: 0.88rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                <li>Should I start taking a weekly 60,000 IU Vitamin D3 capsule with a meal?</li>
+                <li>When would you recommend a follow-up 25-OH Vitamin D blood test?</li>
+                <li>Do my diet and lifestyle need any specific modifications based on these results?</li>
+              </ul>
+              <div style="margin-top: 1.25rem;">
+                <a href="/static/html/doctors.html" class="btn btn-primary btn-sm">
+                  <i class="fa-solid fa-calendar-check"></i> Discuss with Verified Doctor
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/auth.js"></script>
+</body>
+</html>

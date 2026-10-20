@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find a Doctor & Book Appointment — AI Health Clinic</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="portal-container">
+    
+    <!-- Sidebar -->
+    <aside class="portal-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <span>AI Health Clinic</span>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li><a href="/static/html/patient-dashboard.html"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+        <li><a href="/static/html/ai-consultation.html"><i class="fa-solid fa-robot"></i> AI Consultation</a></li>
+        <li><a href="/static/html/medical-reports.html"><i class="fa-solid fa-file-medical"></i> Medical Reports</a></li>
+        <li><a href="/static/html/timeline.html"><i class="fa-solid fa-timeline"></i> Medical History</a></li>
+        <li><a href="/static/html/report-comparison.html"><i class="fa-solid fa-chart-line"></i> Compare Reports</a></li>
+        <li><a href="/static/html/doctors.html" class="active"><i class="fa-solid fa-user-doctor"></i> Find a Doctor</a></li>
+        <li><a href="/static/html/pharmacy-connect.html"><i class="fa-solid fa-prescription-bottle-medical"></i> Pharmacy Connect</a></li>
+        <li><a href="/static/html/reminders.html"><i class="fa-solid fa-bell"></i> Medicine Reminders</a></li>
+        <li><a href="/static/html/settings.html"><i class="fa-solid fa-gear"></i> Profile & Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" class="btn-logout" style="color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="portal-main">
+      
+      <!-- Top Header -->
+      <header class="portal-header">
+        <div class="header-search">
+          <i class="fa-solid fa-magnifying-glass header-search-icon"></i>
+          <input type="text" placeholder="Search verified doctors...">
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+          <div class="user-profile-badge" onclick="window.location.href='/static/html/settings.html'">
+            <div class="user-avatar" id="header-user-avatar">RS</div>
+            <div class="user-info">
+              <div class="user-name" id="header-user-name">Rohan Sharma</div>
+              <div class="user-role" id="header-user-role">Patient</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Body (Screen 6) -->
+      <main class="content-body">
+        
+        <div style="margin-bottom: 2rem;">
+          <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--primary-navy);">Find a Doctor</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Consult verified doctors online or in person.</p>
+        </div>
+
+        <!-- Search & Filter Controls Bar (Screen 6) -->
+        <div class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
+          <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem; align-items: center;">
+            
+            <div style="position: relative;">
+              <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+              <input type="text" id="doc-search-query" placeholder="Search by name, specialization or location..." style="width: 100%; padding: 0.65rem 1rem 0.65rem 2.4rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.9rem;">
+            </div>
+
+            <select id="doc-spec-filter" style="width: 100%; padding: 0.65rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.9rem; background: white;">
+              <option value="all">Specialization (All)</option>
+              <option value="Cardiologist">Cardiologist</option>
+              <option value="General Physician">General Physician</option>
+              <option value="Dermatologist">Dermatologist</option>
+            </select>
+
+            <select id="doc-type-filter" style="width: 100%; padding: 0.65rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.9rem; background: white;">
+              <option value="all">Consultation Type (All)</option>
+              <option value="Online">Online Video</option>
+              <option value="In-Person">In-Person Clinic</option>
+            </select>
+
+            <button class="btn btn-primary" onclick="searchDoctors()">
+              <i class="fa-solid fa-magnifying-glass"></i> Search
+            </button>
+          </div>
+
+          <!-- Quick Filter Tabs -->
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+            <button class="btn btn-sm btn-category" style="background: var(--medical-teal); color: white;" onclick="filterPill('all', this)">All Doctors</button>
+            <button class="btn btn-sm btn-outline btn-category" onclick="filterPill('today', this)">Available Today</button>
+            <button class="btn btn-sm btn-outline btn-category" onclick="filterPill('Online', this)">Online Consultation</button>
+          </div>
+        </div>
+
+        <!-- Doctor Cards Container (Screen 6) -->
+        <div id="doctors-list-container">
+          
+          <!-- Doctor 1: Dr. Priya Mehta -->
+          <div class="doctor-card">
+            <div class="doc-info-block">
+              <div style="width: 72px; height: 72px; border-radius: 50%; background: #DEF7EC; color: #03543F; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                <i class="fa-solid fa-user-doctor"></i>
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <h3 style="font-size: 1.15rem; color: var(--primary-navy); font-weight: 700;">Dr. Priya Mehta</h3>
+                  <span class="badge badge-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+                </div>
+                <div style="color: var(--medical-teal); font-weight: 600; font-size: 0.92rem;">Cardiologist</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin: 0.2rem 0;">10+ years experience</div>
+                <div style="font-size: 0.85rem; color: var(--text-main);">
+                  <i class="fa-solid fa-star" style="color: #F59E0B;"></i> <strong>4.8</strong> <span style="color: var(--text-muted);">(120 reviews)</span>
+                  <span style="margin: 0 0.5rem; color: var(--border-color);">|</span>
+                  <span style="font-size: 0.8rem; color: var(--text-muted);"><i class="fa-solid fa-video"></i> Online • <i class="fa-solid fa-hospital"></i> In-Person</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align: right;">
+              <div style="font-size: 0.78rem; color: var(--text-muted);">Next available</div>
+              <div style="font-size: 0.92rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.75rem;">19 Oct 2024, 11:00 AM</div>
+              <button class="btn btn-primary" onclick="openBookingModal(2, 'Dr. Priya Mehta', 'Cardiologist', '19 Oct 2024', '11:00 AM')">
+                <i class="fa-regular fa-calendar-check"></i> Book Appointment
+              </button>
+            </div>
+          </div>
+
+          <!-- Doctor 2: Dr. Rahul Singh -->
+          <div class="doctor-card">
+            <div class="doc-info-block">
+              <div style="width: 72px; height: 72px; border-radius: 50%; background: #EFF6FF; color: #1E40AF; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                <i class="fa-solid fa-user-doctor"></i>
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <h3 style="font-size: 1.15rem; color: var(--primary-navy); font-weight: 700;">Dr. Rahul Singh</h3>
+                  <span class="badge badge-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+                </div>
+                <div style="color: var(--medical-teal); font-weight: 600; font-size: 0.92rem;">General Physician</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin: 0.2rem 0;">8 years experience</div>
+                <div style="font-size: 0.85rem; color: var(--text-main);">
+                  <i class="fa-solid fa-star" style="color: #F59E0B;"></i> <strong>4.7</strong> <span style="color: var(--text-muted);">(35 reviews)</span>
+                  <span style="margin: 0 0.5rem; color: var(--border-color);">|</span>
+                  <span style="font-size: 0.8rem; color: var(--text-muted);"><i class="fa-solid fa-video"></i> Online • <i class="fa-solid fa-hospital"></i> In-Person</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align: right;">
+              <div style="font-size: 0.78rem; color: var(--text-muted);">Next available</div>
+              <div style="font-size: 0.92rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.75rem;">19 Oct 2024, 02:00 PM</div>
+              <button class="btn btn-primary" onclick="openBookingModal(3, 'Dr. Rahul Singh', 'General Physician', '19 Oct 2024', '02:00 PM')">
+                <i class="fa-regular fa-calendar-check"></i> Book Appointment
+              </button>
+            </div>
+          </div>
+
+          <!-- Doctor 3: Dr. Neha Kapoor -->
+          <div class="doctor-card">
+            <div class="doc-info-block">
+              <div style="width: 72px; height: 72px; border-radius: 50%; background: #FAF5FF; color: #7E22CE; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                <i class="fa-solid fa-user-doctor"></i>
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <h3 style="font-size: 1.15rem; color: var(--primary-navy); font-weight: 700;">Dr. Neha Kapoor</h3>
+                  <span class="badge badge-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+                </div>
+                <div style="color: var(--medical-teal); font-weight: 600; font-size: 0.92rem;">Dermatologist</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin: 0.2rem 0;">6 years experience</div>
+                <div style="font-size: 0.85rem; color: var(--text-main);">
+                  <i class="fa-solid fa-star" style="color: #F59E0B;"></i> <strong>4.6</strong> <span style="color: var(--text-muted);">(92 reviews)</span>
+                  <span style="margin: 0 0.5rem; color: var(--border-color);">|</span>
+                  <span style="font-size: 0.8rem; color: var(--text-muted);"><i class="fa-solid fa-video"></i> Online</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align: right;">
+              <div style="font-size: 0.78rem; color: var(--text-muted);">Next available</div>
+              <div style="font-size: 0.92rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.75rem;">20 Oct 2024, 10:00 AM</div>
+              <button class="btn btn-primary" onclick="openBookingModal(4, 'Dr. Neha Kapoor', 'Dermatologist', '20 Oct 2024', '10:00 AM')">
+                <i class="fa-regular fa-calendar-check"></i> Book Appointment
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Booking Modal -->
+  <div class="modal-overlay" id="booking-modal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeBookingModal()">&times;</button>
+      <h3 style="font-size: 1.3rem; color: var(--primary-navy); font-weight: 700; margin-bottom: 0.35rem;">Book Consultation</h3>
+      <p id="booking-doc-info" style="font-size: 0.9rem; color: var(--medical-teal); font-weight: 600; margin-bottom: 1.5rem;">Dr. Priya Mehta (Cardiologist)</p>
+
+      <form onsubmit="handleBookAppointment(event)">
+        <input type="hidden" id="booking-doc-id">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem;">Appointment Date *</label>
+            <input type="date" id="booking-date" required style="width: 100%; padding: 0.65rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.9rem;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem;">Time Slot *</label>
+            <select id="booking-time" required style="width: 100%; padding: 0.65rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.9rem; background: white;">
+              <option value="10:00 AM">10:00 AM</option>
+              <option value="11:00 AM" selected>11:00 AM</option>
+              <option value="02:00 PM">02:00 PM</option>
+              <option value="04:00 PM">04:00 PM</option>
+              <option value="06:00 PM">06:00 PM</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem;">Consultation Mode</label>
+          <select id="booking-type" style="width: 100%; padding: 0.65rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.9rem; background: white;">
+            <option value="Online" selected>Online Video Consultation</option>
+            <option value="In-Person">In-Person Clinic Visit</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem;">Reason for Visit</label>
+          <textarea id="booking-reason" rows="3" placeholder="Briefly describe your symptoms or inquiry..." style="width: 100%; padding: 0.65rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.88rem;"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+          <button type="button" class="btn btn-outline" onclick="closeBookingModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-confirm-booking">Confirm Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/auth.js"></script>
+  <script>
+    function openBookingModal(docId, docName, spec, defaultDate, defaultTime) {
+      document.getElementById("booking-doc-id").value = docId;
+      document.getElementById("booking-doc-info").innerText = `${docName} (${spec})`;
+      
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById("booking-date").value = tomorrow.toISOString().split('T')[0];
+      
+      document.getElementById("booking-modal").classList.add("active");
+    }
+
+    function closeBookingModal() {
+      document.getElementById("booking-modal").classList.remove("active");
+    }
+
+    async function handleBookAppointment(event) {
+      event.preventDefault();
+      const docId = parseInt(document.getElementById("booking-doc-id").value);
+      const apptDate = document.getElementById("booking-date").value;
+      const apptTime = document.getElementById("booking-time").value;
+      const consultType = document.getElementById("booking-type").value;
+      const reason = document.getElementById("booking-reason").value.trim();
+
+      const btn = document.getElementById("btn-confirm-booking");
+      btn.disabled = true;
+      btn.innerText = "Securing Slot...";
+
+      try {
+        await API.post("/api/appointments", {
+          doctor_id: docId,
+          appointment_date: apptDate,
+          appointment_time: apptTime,
+          consultation_type: consultType,
+          reason_for_visit: reason
+        });
+
+        API.toast("Appointment successfully booked! Added to Health Timeline.", "success");
+        closeBookingModal();
+        setTimeout(() => {
+          window.location.href = "/static/html/timeline.html";
+        }, 1200);
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerText = "Confirm Booking";
+      }
+    }
+
+    function searchDoctors() {
+      const q = document.getElementById("doc-search-query").value.toLowerCase();
+      const spec = document.getElementById("doc-spec-filter").value.toLowerCase();
+      const cards = document.querySelectorAll(".doctor-card");
+
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const matchQ = !q || text.includes(q);
+        const matchSpec = spec === "all" || text.includes(spec);
+        card.style.display = (matchQ && matchSpec) ? "" : "none";
+      });
+    }
+
+    function filterPill(filter, btn) {
+      document.querySelectorAll(".btn-category").forEach(b => {
+        b.style.background = "transparent";
+        b.style.color = "var(--primary-navy)";
+      });
+      btn.style.background = "var(--medical-teal)";
+      btn.style.color = "white";
+
+      const cards = document.querySelectorAll(".doctor-card");
+      cards.forEach(card => {
+        if (filter === "all") {
+          card.style.display = "";
+        } else if (filter === "Online") {
+          card.style.display = card.innerText.includes("Online") ? "" : "none";
+        } else {
+          card.style.display = "";
+        }
+      });
+    }
+  </script>
+</body>
+</html>

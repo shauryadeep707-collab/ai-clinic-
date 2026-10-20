@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard (Doctor Verification) — AI Health Clinic</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="portal-container">
+    
+    <!-- Sidebar -->
+    <aside class="portal-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <span>AI Health Clinic</span>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li><a href="/static/html/admin-dashboard.html" class="active"><i class="fa-solid fa-user-shield"></i> Doctor Verification</a></li>
+        <li><a href="/static/html/doctors.html"><i class="fa-solid fa-user-doctor"></i> Doctors Directory</a></li>
+        <li><a href="/static/html/medical-reports.html"><i class="fa-solid fa-file-medical"></i> All Reports</a></li>
+        <li><a href="/static/html/pharmacy-connect.html"><i class="fa-solid fa-prescription-bottle-medical"></i> Pharmacy Connect</a></li>
+        <li><a href="/static/html/settings.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" class="btn-logout" style="color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="portal-main">
+      
+      <!-- Top Header -->
+      <header class="portal-header">
+        <div class="header-search">
+          <i class="fa-solid fa-magnifying-glass header-search-icon"></i>
+          <input type="text" placeholder="Search applicant doctors...">
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+          <div class="user-profile-badge">
+            <div class="user-avatar" style="background:#FEF3C7; color:#92400E;">AD</div>
+            <div class="user-info">
+              <div class="user-name">System Administrator</div>
+              <div class="user-role">Administrator</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content Body (Screen 9) -->
+      <main class="content-body">
+        
+        <div style="margin-bottom: 2rem;">
+          <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--primary-navy);">Doctor Verification</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Review and verify doctor credentials and council registrations.</p>
+        </div>
+
+        <!-- Verification Status Tabs (Screen 9) -->
+        <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1.5rem;">
+          <button class="btn btn-sm btn-category" id="tab-pending" onclick="filterQueue('Pending', this)" style="border-radius: 4px 4px 0 0; background: white; border-bottom: 2px solid var(--medical-teal); color: var(--medical-teal);">
+            Pending (5)
+          </button>
+          <button class="btn btn-sm btn-category btn-outline" id="tab-approved" onclick="filterQueue('Verified', this)">
+            Approved (18)
+          </button>
+          <button class="btn btn-sm btn-category btn-outline" id="tab-rejected" onclick="filterQueue('Rejected', this)">
+            Rejected (2)
+          </button>
+        </div>
+
+        <!-- Verification Queue Table (Screen 9) -->
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Applicant</th>
+                <th>Specialization</th>
+                <th>Submitted On</th>
+                <th>Status</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="verification-table-body">
+              
+              <!-- Applicant 1 -->
+              <tr data-status="Pending">
+                <td>
+                  <div style="font-weight: 700; color: var(--primary-navy);">Dr. Rakesh Kumar</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">MBBS, MD • UPMC-2017-3312</div>
+                </td>
+                <td>General Physician</td>
+                <td>15 Oct 2024</td>
+                <td><span class="badge badge-pending">Pending</span></td>
+                <td style="text-align: right;">
+                  <button class="btn btn-primary btn-sm" onclick="openReviewModal(1, 'Dr. Rakesh Kumar', 'MBBS, MD', 'General Physician', 'UPMC-2017-3312', 'Uttar Pradesh Medical Council')">Review</button>
+                </td>
+              </tr>
+
+              <!-- Applicant 2 -->
+              <tr data-status="Pending">
+                <td>
+                  <div style="font-weight: 700; color: var(--primary-navy);">Dr. Sneha Patel</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">MBBS, DNB • GMC-2019-1120</div>
+                </td>
+                <td>Dermatologist</td>
+                <td>14 Oct 2024</td>
+                <td><span class="badge badge-pending">Pending</span></td>
+                <td style="text-align: right;">
+                  <button class="btn btn-primary btn-sm" onclick="openReviewModal(2, 'Dr. Sneha Patel', 'MBBS, DNB', 'Dermatologist', 'GMC-2019-1120', 'Gujarat Medical Council')">Review</button>
+                </td>
+              </tr>
+
+              <!-- Applicant 3 -->
+              <tr data-status="Pending">
+                <td>
+                  <div style="font-weight: 700; color: var(--primary-navy);">Dr. Arjun Mehta</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">MBBS, MS • MMC-2015-8841</div>
+                </td>
+                <td>Orthopedic Surgeon</td>
+                <td>12 Oct 2024</td>
+                <td><span class="badge badge-pending">Pending</span></td>
+                <td style="text-align: right;">
+                  <button class="btn btn-primary btn-sm" onclick="openReviewModal(3, 'Dr. Arjun Mehta', 'MBBS, MS', 'Orthopedic Surgeon', 'MMC-2015-8841', 'Maharashtra Medical Council')">Review</button>
+                </td>
+              </tr>
+
+              <!-- Applicant 4 -->
+              <tr data-status="Pending">
+                <td>
+                  <div style="font-weight: 700; color: var(--primary-navy);">Dr. Pooja Singh</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">MBBS, MD, DM • TNC-2016-5542</div>
+                </td>
+                <td>Cardiologist</td>
+                <td>10 Oct 2024</td>
+                <td><span class="badge badge-pending">Pending</span></td>
+                <td style="text-align: right;">
+                  <button class="btn btn-primary btn-sm" onclick="openReviewModal(4, 'Dr. Pooja Singh', 'MBBS, MD, DM', 'Cardiologist', 'TNC-2016-5542', 'Tamil Nadu Medical Council')">Review</button>
+                </td>
+              </tr>
+
+              <!-- Applicant 5 -->
+              <tr data-status="Pending">
+                <td>
+                  <div style="font-weight: 700; color: var(--primary-navy);">Dr. Karan Shah</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">MBBS, DCH • WBMC-2018-6671</div>
+                </td>
+                <td>Pediatrician</td>
+                <td>08 Oct 2024</td>
+                <td><span class="badge badge-pending">Pending</span></td>
+                <td style="text-align: right;">
+                  <button class="btn btn-primary btn-sm" onclick="openReviewModal(5, 'Dr. Karan Shah', 'MBBS, DCH', 'Pediatrician', 'WBMC-2018-6671', 'West Bengal Medical Council')">Review</button>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Review Modal (Screen 9) -->
+  <div class="modal-overlay" id="review-modal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeReviewModal()">&times;</button>
+      
+      <h3 style="font-size: 1.25rem; color: var(--primary-navy); font-weight: 700; margin-bottom: 0.35rem;">Review Doctor Application</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Audit uploaded evidence, academic credentials, and State Council registration.</p>
+
+      <div style="background: var(--bg-light); border-radius: var(--radius-sm); padding: 1.25rem; margin-bottom: 1.25rem; font-size: 0.9rem;">
+        <div style="margin-bottom: 0.5rem;"><strong style="color:var(--primary-navy);">Applicant:</strong> <span id="rev-name">Dr. Rakesh Kumar</span></div>
+        <div style="margin-bottom: 0.5rem;"><strong style="color:var(--primary-navy);">Qualifications:</strong> <span id="rev-qual">MBBS, MD</span></div>
+        <div style="margin-bottom: 0.5rem;"><strong style="color:var(--primary-navy);">Specialization:</strong> <span id="rev-spec">General Physician</span></div>
+        <div style="margin-bottom: 0.5rem;"><strong style="color:var(--primary-navy);">Registration Number:</strong> <span id="rev-reg">UPMC-2017-3312</span></div>
+        <div><strong style="color:var(--primary-navy);">Council:</strong> <span id="rev-council">Uttar Pradesh Medical Council</span></div>
+      </div>
+
+      <!-- Verification Verification Checklist -->
+      <div style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1.25rem; font-size: 0.85rem;">
+        <div style="font-weight: 700; color: var(--primary-navy); margin-bottom: 0.5rem;">External Verification Verification Checks:</div>
+        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.4rem; color:#03543F;">
+          <i class="fa-solid fa-check"></i> DigiLocker National Academic Depository (NAD) Degree Record Verified
+        </div>
+        <div style="display:flex; align-items:center; gap:0.5rem; color:#03543F;">
+          <i class="fa-solid fa-check"></i> National Medical Commission (NMC) Indian Medical Register Active Status Verified
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem;">Review Audit Notes *</label>
+        <textarea id="rev-notes" rows="2" style="width: 100%; padding: 0.65rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.88rem;">Academic qualifications and state medical council registration number confirmed valid.</textarea>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button type="button" class="btn btn-outline" style="color: #DC2626; border-color: #FCA5A5;" onclick="submitDecision('Rejected')">
+          <i class="fa-solid fa-xmark"></i> Reject
+        </button>
+        <button type="button" class="btn btn-outline" style="color: #D97706; border-color: #FCD34D;" onclick="submitDecision('Requested Info')">
+          <i class="fa-solid fa-circle-question"></i> Request More Info
+        </button>
+        <button type="button" class="btn btn-primary" onclick="submitDecision('Approved')">
+          <i class="fa-solid fa-check"></i> Approve Credentials
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/auth.js"></script>
+  <script>
+    let activeAppId = 1;
+
+    function openReviewModal(appId, name, qual, spec, reg, council) {
+      activeAppId = appId;
+      document.getElementById("rev-name").innerText = name;
+      document.getElementById("rev-qual").innerText = qual;
+      document.getElementById("rev-spec").innerText = spec;
+      document.getElementById("rev-reg").innerText = reg;
+      document.getElementById("rev-council").innerText = council;
+      document.getElementById("review-modal").classList.add("active");
+    }
+
+    function closeReviewModal() {
+      document.getElementById("review-modal").classList.remove("active");
+    }
+
+    async function submitDecision(action) {
+      const notes = document.getElementById("rev-notes").value;
+      try {
+        await API.post("/api/admin/doctors/review", {
+          application_id: activeAppId,
+          action: action,
+          notes: notes
+        });
+
+        API.toast(`Doctor application decision recorded: ${action}`, "success");
+        closeReviewModal();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } catch (err) {
+        console.error("Failed to record review", err);
+      }
+    }
+
+    function filterQueue(status, btn) {
+      document.querySelectorAll(".btn-category").forEach(b => {
+        b.style.borderBottom = "none";
+        b.style.color = "var(--primary-navy)";
+      });
+      btn.style.borderBottom = "2px solid var(--medical-teal)";
+      btn.style.color = "var(--medical-teal)";
+
+      const rows = document.querySelectorAll("#verification-table-body tr");
+      rows.forEach(r => {
+        const s = r.getAttribute("data-status");
+        r.style.display = (status === "all" || s === status) ? "" : "none";
+      });
+    }
+  </script>
+</body>
+</html>

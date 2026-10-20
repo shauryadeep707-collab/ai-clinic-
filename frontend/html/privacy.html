@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — AI Health Clinic</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <nav class="public-navbar">
+    <a href="/static/html/index.html" class="brand-logo">
+      <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+      <span>AI Health Clinic</span>
+    </a>
+    <div class="nav-actions">
+      <a href="/static/html/login.html" class="btn btn-outline">Login</a>
+    </div>
+  </nav>
+
+  <main style="max-width: 850px; margin: 3rem auto; padding: 0 1.5rem; line-height: 1.8;">
+    <h1 style="font-size: 2rem; color: var(--primary-navy); margin-bottom: 0.5rem; font-weight: 800;">Privacy Policy & Data Security</h1>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem;">Last Updated: October 2026</p>
+
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <h3 style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.1rem;">1. Data Isolation & Patient Ownership</h3>
+      <p style="font-size: 0.92rem; color: var(--text-main);">
+        All health data, medical records, consultations, and test documents are owned exclusively by the patient. Under our multi-tenant authorization model, no other patient or unauthorized clinician can access your records by modifying IDs in request URLs or parameters.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <h3 style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.1rem;">2. Encryption in Transit and at Rest</h3>
+      <p style="font-size: 0.92rem; color: var(--text-main);">
+        User passwords are encrypted using one-way salt hashing (bcrypt). All API communications occur over HTTPS (TLS 1.3). Medical document files are kept in private server directories not accessible by public web URLs.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <h3 style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.1rem;">3. External Pharmacy Data Privacy</h3>
+      <p style="font-size: 0.92rem; color: var(--text-main);">
+        When using our Pharmacy Connect feature, AI Health Clinic does NOT transmit your medical history, confidential symptoms, or patient ID to external pharmacy providers (Amazon Pharmacy, Blinkit, Swiggy Instamart, Tata 1mg, Apollo Pharmacy, PharmEasy, Netmeds). Links open public search or product landing pages only.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3 style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.1rem;">4. Doctor Record Sharing Consent</h3>
+      <p style="font-size: 0.92rem; color: var(--text-main);">
+        Doctors cannot access patient reports or timelines unless the patient books an appointment or explicitly grants record sharing consent in the Settings portal. Consent can be revoked at any time.
+      </p>
+    </div>
+  </main>
+
+  <footer style="background: white; border-top: 1px solid var(--border-color); padding: 2rem; margin-top: auto; text-align: center; font-size: 0.85rem; color: var(--text-muted);">
+    &copy; 2026 AI Health Clinic. All rights reserved.
+  </footer>
+
+</body>
+</html>

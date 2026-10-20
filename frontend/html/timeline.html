@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Medical History & Unified Timeline — AI Health Clinic</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="portal-container">
+    
+    <!-- Sidebar -->
+    <aside class="portal-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <span>AI Health Clinic</span>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li><a href="/static/html/patient-dashboard.html"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+        <li><a href="/static/html/ai-consultation.html"><i class="fa-solid fa-robot"></i> AI Consultation</a></li>
+        <li><a href="/static/html/medical-reports.html"><i class="fa-solid fa-file-medical"></i> Medical Reports</a></li>
+        <li><a href="/static/html/timeline.html" class="active"><i class="fa-solid fa-timeline"></i> Medical History</a></li>
+        <li><a href="/static/html/report-comparison.html"><i class="fa-solid fa-chart-line"></i> Compare Reports</a></li>
+        <li><a href="/static/html/doctors.html"><i class="fa-solid fa-user-doctor"></i> Find a Doctor</a></li>
+        <li><a href="/static/html/pharmacy-connect.html"><i class="fa-solid fa-prescription-bottle-medical"></i> Pharmacy Connect</a></li>
+        <li><a href="/static/html/reminders.html"><i class="fa-solid fa-bell"></i> Medicine Reminders</a></li>
+        <li><a href="/static/html/settings.html"><i class="fa-solid fa-gear"></i> Profile & Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" class="btn-logout" style="color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="portal-main">
+      
+      <!-- Top Header -->
+      <header class="portal-header">
+        <div class="header-search">
+          <i class="fa-solid fa-magnifying-glass header-search-icon"></i>
+          <input type="text" id="timeline-search-box" placeholder="Search medical history..." onkeyup="filterTimeline()">
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+          <div class="user-profile-badge" onclick="window.location.href='/static/html/settings.html'">
+            <div class="user-avatar" id="header-user-avatar">RS</div>
+            <div class="user-info">
+              <div class="user-name" id="header-user-name">Rohan Sharma</div>
+              <div class="user-role" id="header-user-role">Patient</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Timeline Body (Screen 5) -->
+      <main class="content-body">
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--primary-navy);">Complete Medical History</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Your health journey in one place.</p>
+          </div>
+
+          <!-- Controls Bar (Filter, Dates, Search) -->
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            
+            <select id="timeline-type-filter" onchange="fetchTimeline()" style="padding: 0.6rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.88rem; background: white;">
+              <option value="all">All Records</option>
+              <option value="Report Upload">Medical Reports</option>
+              <option value="AI Consultation">AI Consultations</option>
+              <option value="Doctor Consultation">Doctor Consultations</option>
+              <option value="Health Observation">Health Observations</option>
+            </select>
+
+            <div style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--text-muted);">
+              <span>From</span>
+              <input type="date" id="timeline-from-date" onchange="fetchTimeline()" style="padding: 0.55rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem;">
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--text-muted);">
+              <span>To</span>
+              <input type="date" id="timeline-to-date" onchange="fetchTimeline()" style="padding: 0.55rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem;">
+            </div>
+
+            <button class="btn btn-primary" style="padding: 0.6rem 0.9rem;" onclick="fetchTimeline()">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Vertical Timeline Ledger (Matching Screen 5) -->
+        <div class="timeline-wrapper" id="timeline-events-container">
+          
+          <!-- Event 1 -->
+          <div class="timeline-card-item" data-type="Report Upload">
+            <div class="timeline-card-node"><i class="fa-solid fa-droplet"></i></div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--medical-teal); margin-bottom: 0.35rem;">15 Oct 2024</div>
+            <div class="timeline-event-card">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 44px; height: 44px; border-radius: var(--radius-sm); background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  <i class="fa-solid fa-file-waveform"></i>
+                </div>
+                <div>
+                  <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">Blood Test Report</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;">Complete Blood Count</p>
+                  <p style="font-size: 0.88rem; color: var(--text-main);"><strong style="color: var(--medical-teal);">Summary:</strong> All values within normal range except Vitamin D (low).</p>
+                </div>
+              </div>
+              <a href="/static/html/medical-reports.html?id=1" class="btn btn-outline btn-sm">View</a>
+            </div>
+          </div>
+
+          <!-- Event 2 -->
+          <div class="timeline-card-item" data-type="AI Consultation">
+            <div class="timeline-card-node" style="background: #3B82F6;"><i class="fa-solid fa-robot"></i></div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: #2563EB; margin-bottom: 0.35rem;">02 Oct 2024</div>
+            <div class="timeline-event-card">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 44px; height: 44px; border-radius: var(--radius-sm); background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  <i class="fa-solid fa-comments"></i>
+                </div>
+                <div>
+                  <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">AI Consultation</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;">Headache Assessment</p>
+                  <p style="font-size: 0.88rem; color: var(--text-main);"><strong style="color: #2563EB;">Summary:</strong> Discussed headache symptoms. Advised rest and hydration.</p>
+                </div>
+              </div>
+              <a href="/static/html/ai-consultation.html?id=1" class="btn btn-outline btn-sm">View</a>
+            </div>
+          </div>
+
+          <!-- Event 3 -->
+          <div class="timeline-card-item" data-type="Report Upload">
+            <div class="timeline-card-node" style="background: #10B981;"><i class="fa-solid fa-x-ray"></i></div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: #059669; margin-bottom: 0.35rem;">28 Sep 2024</div>
+            <div class="timeline-event-card">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 44px; height: 44px; border-radius: var(--radius-sm); background: #F0FDF4; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  <i class="fa-solid fa-x-ray"></i>
+                </div>
+                <div>
+                  <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">X-Ray Report</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;">Chest X-Ray</p>
+                  <p style="font-size: 0.88rem; color: var(--text-main);"><strong style="color: #059669;">Summary:</strong> No significant abnormality detected.</p>
+                </div>
+              </div>
+              <a href="/static/html/medical-reports.html?id=2" class="btn btn-outline btn-sm">View</a>
+            </div>
+          </div>
+
+          <!-- Event 4 -->
+          <div class="timeline-card-item" data-type="Doctor Consultation">
+            <div class="timeline-card-node" style="background: #F97316;"><i class="fa-solid fa-user-doctor"></i></div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: #EA580C; margin-bottom: 0.35rem;">20 Jul 2024</div>
+            <div class="timeline-event-card">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 44px; height: 44px; border-radius: var(--radius-sm); background: #FFF7ED; color: #EA580C; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  <i class="fa-solid fa-stethoscope"></i>
+                </div>
+                <div>
+                  <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">Doctor Consultation</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;">Dr. Amit Verma (General Physician)</p>
+                  <p style="font-size: 0.88rem; color: var(--text-main);"><strong style="color: #EA580C;">Summary:</strong> Follow-up for fever. Prescribed medication.</p>
+                </div>
+              </div>
+              <a href="/static/html/doctors.html" class="btn btn-outline btn-sm">View</a>
+            </div>
+          </div>
+
+          <!-- Event 5 -->
+          <div class="timeline-card-item" data-type="Report Upload">
+            <div class="timeline-card-node" style="background: #0D9488;"><i class="fa-solid fa-vial"></i></div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--medical-teal); margin-bottom: 0.35rem;">05 Jun 2024</div>
+            <div class="timeline-event-card">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 44px; height: 44px; border-radius: var(--radius-sm); background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  <i class="fa-solid fa-vial"></i>
+                </div>
+                <div>
+                  <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">Urine Test Report</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;">Routine Urine Examination</p>
+                  <p style="font-size: 0.88rem; color: var(--text-main);"><strong style="color: var(--medical-teal);">Summary:</strong> Normal results.</p>
+                </div>
+              </div>
+              <a href="/static/html/medical-reports.html?id=5" class="btn btn-outline btn-sm">View</a>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/auth.js"></script>
+  <script>
+    async function fetchTimeline() {
+      const type = document.getElementById("timeline-type-filter").value;
+      const fromDate = document.getElementById("timeline-from-date").value;
+      const toDate = document.getElementById("timeline-to-date").value;
+
+      let queryParams = [];
+      if (type && type !== "all") queryParams.push(`event_type=${encodeURIComponent(type)}`);
+      if (fromDate) queryParams.push(`date_from=${fromDate}`);
+      if (toDate) queryParams.push(`date_to=${toDate}`);
+
+      const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+
+      try {
+        const events = await API.get(`/api/timeline${queryString}`);
+        renderTimeline(events);
+      } catch (err) {
+        console.error("Could not fetch timeline events", err);
+      }
+    }
+
+    function renderTimeline(events) {
+      const container = document.getElementById("timeline-events-container");
+      if (!events || events.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:3rem; color:var(--text-muted); background:white; border-radius:var(--radius-md);">No timeline records match the selected filter.</div>`;
+        return;
+      }
+
+      let html = "";
+      events.forEach(ev => {
+        let icon = "fa-file-medical";
+        let color = "var(--medical-teal)";
+        let link = "/static/html/medical-reports.html";
+
+        if (ev.event_type.includes("Consultation") && ev.event_type.includes("AI")) {
+          icon = "fa-robot";
+          color = "#2563EB";
+          link = "/static/html/ai-consultation.html";
+        } else if (ev.event_type.includes("Doctor")) {
+          icon = "fa-user-doctor";
+          color = "#EA580C";
+          link = "/static/html/doctors.html";
+        } else if (ev.event_type.includes("Observation")) {
+          icon = "fa-heart-pulse";
+          color = "#10B981";
+        }
+
+        html += `
+          <div class="timeline-card-item" data-type="${ev.event_type}">
+            <div class="timeline-card-node" style="background: ${color};"><i class="fa-solid ${icon}"></i></div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: ${color}; margin-bottom: 0.35rem;">${ev.event_date} ${ev.event_time ? '• ' + ev.event_time : ''}</div>
+            <div class="timeline-event-card">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 44px; height: 44px; border-radius: var(--radius-sm); background: var(--bg-light); color: ${color}; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  <i class="fa-solid ${icon}"></i>
+                </div>
+                <div>
+                  <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">${escapeHtml(ev.event_title)}</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;">${escapeHtml(ev.organization_or_doctor || 'AI Health Clinic')}</p>
+                  <p style="font-size: 0.88rem; color: var(--text-main);"><strong style="color:${color};">Summary:</strong> ${escapeHtml(ev.short_description || '')}</p>
+                </div>
+              </div>
+              <a href="${link}" class="btn btn-outline btn-sm">View</a>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function filterTimeline() {
+      const q = document.getElementById("timeline-search-box").value.toLowerCase();
+      const items = document.querySelectorAll(".timeline-card-item");
+      items.forEach(it => {
+        const text = it.innerText.toLowerCase();
+        it.style.display = text.includes(q) ? "" : "none";
+      });
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.innerText = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard — AI Health Clinic</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="portal-container">
+    
+    <!-- Sidebar (Screen 2) -->
+    <aside class="portal-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <span>AI Health Clinic</span>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li><a href="/static/html/patient-dashboard.html" class="active"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+        <li><a href="/static/html/ai-consultation.html"><i class="fa-solid fa-robot"></i> AI Consultation</a></li>
+        <li><a href="/static/html/medical-reports.html"><i class="fa-solid fa-file-medical"></i> Medical Reports</a></li>
+        <li><a href="/static/html/timeline.html"><i class="fa-solid fa-timeline"></i> Medical History</a></li>
+        <li><a href="/static/html/report-comparison.html"><i class="fa-solid fa-chart-line"></i> Compare Reports</a></li>
+        <li><a href="/static/html/doctors.html"><i class="fa-solid fa-user-doctor"></i> Find a Doctor</a></li>
+        <li><a href="/static/html/pharmacy-connect.html"><i class="fa-solid fa-prescription-bottle-medical"></i> Pharmacy Connect</a></li>
+        <li><a href="/static/html/reminders.html"><i class="fa-solid fa-bell"></i> Medicine Reminders</a></li>
+        <li><a href="/static/html/settings.html"><i class="fa-solid fa-gear"></i> Profile & Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" class="btn-logout" style="color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="portal-main">
+      
+      <!-- Top Header -->
+      <header class="portal-header">
+        <div class="header-search">
+          <i class="fa-solid fa-magnifying-glass header-search-icon"></i>
+          <input type="text" placeholder="Search reports, doctors, timeline...">
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+          <div style="cursor: pointer; color: var(--text-muted); font-size: 1.2rem; position: relative;">
+            <i class="fa-regular fa-bell"></i>
+            <span style="position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--medical-teal); border-radius: 50%;"></span>
+          </div>
+
+          <div class="user-profile-badge" onclick="window.location.href='/static/html/settings.html'">
+            <div class="user-avatar" id="header-user-avatar">RS</div>
+            <div class="user-info">
+              <div class="user-name" id="header-user-name">Rohan Sharma</div>
+              <div class="user-role" id="header-user-role">Patient</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Body -->
+      <main class="content-body">
+        
+        <!-- Welcome Greeting -->
+        <div style="margin-bottom: 2rem;">
+          <h2 style="font-size: 1.75rem; font-weight: 700; color: var(--primary-navy);" id="welcome-heading">Good Morning, Rohan</h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Take charge of your health today.</p>
+        </div>
+
+        <!-- 4 Action Cards (Grid) -->
+        <div class="grid-4">
+          
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="stat-icon"><i class="fa-solid fa-robot"></i></div>
+              <h3 class="card-title">AI Consultation</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.5rem 0 1.25rem 0;">Get instant health guidance from our AI assistant.</p>
+            </div>
+            <a href="/static/html/ai-consultation.html" class="btn btn-primary btn-sm btn-block">Start Consultation</a>
+          </div>
+
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="stat-icon" style="background: #E0F2FE; color: #0284C7;"><i class="fa-solid fa-file-medical"></i></div>
+              <h3 class="card-title">My Medical Reports</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.5rem 0 1.25rem 0;">Upload and view your diagnostic reports.</p>
+            </div>
+            <a href="/static/html/medical-reports.html" class="btn btn-primary btn-sm btn-block">View Reports</a>
+          </div>
+
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="stat-icon" style="background: #FEF3C7; color: #D97706;"><i class="fa-solid fa-timeline"></i></div>
+              <h3 class="card-title">Medical History</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.5rem 0 1.25rem 0;">See your complete unified health timeline.</p>
+            </div>
+            <a href="/static/html/timeline.html" class="btn btn-primary btn-sm btn-block">View History</a>
+          </div>
+
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="stat-icon" style="background: #DCFCE7; color: #16A34A;"><i class="fa-solid fa-calendar-check"></i></div>
+              <h3 class="card-title">Appointments</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.5rem 0 1.25rem 0;">Manage your verified doctor appointments.</p>
+            </div>
+            <a href="/static/html/doctors.html" class="btn btn-primary btn-sm btn-block">Book Appointment</a>
+          </div>
+
+        </div>
+
+        <!-- Lower Section: Recent Reports & Upcoming Appointments (Matching Screen 2) -->
+        <div class="grid-2">
+          
+          <!-- Recent Reports Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Recent Reports</h3>
+              <a href="/static/html/medical-reports.html" class="card-action-link">See All</a>
+            </div>
+
+            <div id="recent-reports-list" style="display: flex; flex-direction: column; gap: 1rem;">
+              
+              <!-- Report Row 1 -->
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; background: var(--bg-light); border-radius: var(--radius-sm);">
+                <div style="display: flex; align-items: center; gap: 0.85rem;">
+                  <div style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: white; color: var(--medical-teal); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; border: 1px solid var(--border-color);">
+                    <i class="fa-solid fa-droplet"></i>
+                  </div>
+                  <div>
+                    <h4 style="font-size: 0.92rem; color: var(--primary-navy); font-weight: 600;">Blood Test Report</h4>
+                    <p style="font-size: 0.78rem; color: var(--text-muted);">Uploaded on 15 Oct 2024</p>
+                  </div>
+                </div>
+                <a href="/static/html/medical-reports.html?id=1" class="btn btn-outline btn-sm">View</a>
+              </div>
+
+              <!-- Report Row 2 -->
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; background: var(--bg-light); border-radius: var(--radius-sm);">
+                <div style="display: flex; align-items: center; gap: 0.85rem;">
+                  <div style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: white; color: #0284C7; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; border: 1px solid var(--border-color);">
+                    <i class="fa-solid fa-x-ray"></i>
+                  </div>
+                  <div>
+                    <h4 style="font-size: 0.92rem; color: var(--primary-navy); font-weight: 600;">X-Ray (Chest)</h4>
+                    <p style="font-size: 0.78rem; color: var(--text-muted);">Uploaded on 28 Sep 2024</p>
+                  </div>
+                </div>
+                <a href="/static/html/medical-reports.html?id=2" class="btn btn-outline btn-sm">View</a>
+              </div>
+
+              <!-- Report Row 3 -->
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; background: var(--bg-light); border-radius: var(--radius-sm);">
+                <div style="display: flex; align-items: center; gap: 0.85rem;">
+                  <div style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: white; color: #7C3AED; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; border: 1px solid var(--border-color);">
+                    <i class="fa-solid fa-brain"></i>
+                  </div>
+                  <div>
+                    <h4 style="font-size: 0.92rem; color: var(--primary-navy); font-weight: 600;">MRI Report</h4>
+                    <p style="font-size: 0.78rem; color: var(--text-muted);">Uploaded on 12 Aug 2024</p>
+                  </div>
+                </div>
+                <a href="/static/html/medical-reports.html?id=3" class="btn btn-outline btn-sm">View</a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Upcoming Appointments Card (Screen 2) -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Upcoming Appointments</h3>
+              <a href="/static/html/doctors.html" class="card-action-link">Book New</a>
+            </div>
+
+            <div style="padding: 1.25rem; background: var(--bg-light); border-radius: var(--radius-md); border: 1px solid var(--border-color); text-align: center;">
+              <div style="width: 60px; height: 60px; border-radius: 50%; background: #DEF7EC; color: #03543F; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 0.75rem auto;">
+                <i class="fa-solid fa-user-doctor"></i>
+              </div>
+              <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">Dr. Priya Mehta</h4>
+              <p style="font-size: 0.85rem; color: var(--medical-teal); font-weight: 600;">Cardiologist</p>
+              
+              <div style="margin: 1rem 0; padding: 0.6rem; background: white; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-main);">
+                <i class="fa-regular fa-clock" style="color: var(--medical-teal);"></i> 19 Oct 2024 • 11:00 AM<br>
+                <span class="badge badge-teal" style="margin-top: 0.35rem;">Online Consultation</span>
+              </div>
+
+              <a href="/static/html/timeline.html" class="btn btn-outline btn-sm btn-block">View Details</a>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/auth.js"></script>
+  <script>
+    // Load live dashboard summary from API
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const summary = await API.get("/api/patients/dashboard-summary");
+        if (summary.user_name) {
+          document.getElementById("welcome-heading").innerText = `Good Morning, ${summary.user_name.split(' ')[0]}`;
+        }
+      } catch (e) {
+        console.warn("Using pre-rendered summary", e);
+      }
+    });
+  </script>
+</body>
+</html>

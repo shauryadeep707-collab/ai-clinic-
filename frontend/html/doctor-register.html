@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Registration & Verification — AI Health Clinic</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="portal-container">
+    
+    <!-- Sidebar -->
+    <aside class="portal-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <span>AI Health Clinic</span>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li><a href="/static/html/doctor-dashboard.html"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+        <li><a href="/static/html/doctor-dashboard.html"><i class="fa-solid fa-users"></i> My Patients</a></li>
+        <li><a href="/static/html/doctor-dashboard.html"><i class="fa-solid fa-calendar-check"></i> Appointments</a></li>
+        <li><a href="/static/html/doctor-register.html" class="active"><i class="fa-solid fa-certificate"></i> Verification</a></li>
+        <li><a href="/static/html/settings.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" class="btn-logout" style="color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="portal-main">
+      
+      <header class="portal-header">
+        <div style="font-weight: 600; color: var(--primary-navy);">Clinician Onboarding Portal</div>
+        <div class="user-profile-badge">
+          <div class="user-avatar" style="background:#DEF7EC; color:#03543F;">DR</div>
+          <div class="user-info">
+            <div class="user-name">Dr. Amit Verma</div>
+            <div class="user-role">Medical Practitioner</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Body (Screen 7) -->
+      <main class="content-body">
+        
+        <div style="margin-bottom: 2rem;">
+          <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--primary-navy);">Doctor Registration & Verification</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Join our platform and help patients with trusted, verified care.</p>
+        </div>
+
+        <!-- Multi-Step Progress Tracker (Screen 7) -->
+        <div class="card" style="margin-bottom: 2rem; padding: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; position: relative;">
+            <div style="position: absolute; top: 14px; left: 30px; right: 30px; height: 2px; background: var(--border-color); z-index: 1;"></div>
+            
+            <div style="position: relative; z-index: 2; text-align: center; background: white; padding: 0 0.5rem;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--medical-teal); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; margin: 0 auto 0.4rem auto;">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div style="font-size: 0.82rem; font-weight: 600; color: var(--primary-navy);">Personal Details</div>
+            </div>
+
+            <div style="position: relative; z-index: 2; text-align: center; background: white; padding: 0 0.5rem;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--medical-teal); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; margin: 0 auto 0.4rem auto;">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div style="font-size: 0.82rem; font-weight: 600; color: var(--primary-navy);">Professional Details</div>
+            </div>
+
+            <div style="position: relative; z-index: 2; text-align: center; background: white; padding: 0 0.5rem;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--medical-teal); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; margin: 0 auto 0.4rem auto; box-shadow: 0 0 0 4px var(--medical-teal-light);">
+                3
+              </div>
+              <div style="font-size: 0.82rem; font-weight: 700; color: var(--medical-teal);">Upload Documents</div>
+            </div>
+
+            <div style="position: relative; z-index: 2; text-align: center; background: white; padding: 0 0.5rem;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--border-color); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; margin: 0 auto 0.4rem auto;">
+                4
+              </div>
+              <div style="font-size: 0.82rem; font-weight: 500; color: var(--text-muted);">Verification</div>
+            </div>
+
+            <div style="position: relative; z-index: 2; text-align: center; background: white; padding: 0 0.5rem;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--border-color); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; margin: 0 auto 0.4rem auto;">
+                5
+              </div>
+              <div style="font-size: 0.82rem; font-weight: 500; color: var(--text-muted);">Completed</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 2-Column Section (Form + Application Status Tracker) -->
+        <div class="grid-2">
+          
+          <!-- Upload Form (Screen 7) -->
+          <div class="card">
+            <h3 style="font-size: 1.15rem; color: var(--primary-navy); font-weight: 700; margin-bottom: 0.35rem;">Upload Documents</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Please upload clear and valid documents for clinical verification.</p>
+
+            <form onsubmit="handleDoctorVerificationSubmit(event)">
+              
+              <div style="margin-bottom: 1.25rem;">
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.35rem;">Medical Degree Certificate *</label>
+                <input type="file" id="doc-degree" required accept=".pdf,image/png,image/jpeg" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem; background: var(--bg-light);">
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">PDF, JPG or PNG (Max 5 MB)</div>
+              </div>
+
+              <div style="margin-bottom: 1.25rem;">
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.35rem;">Medical Registration Certificate *</label>
+                <input type="file" id="doc-reg" required accept=".pdf,image/png,image/jpeg" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem; background: var(--bg-light);">
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">PDF, JPG or PNG (Max 5 MB)</div>
+              </div>
+
+              <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.35rem;">Government ID (Aadhaar / Passport) *</label>
+                <input type="file" id="doc-id" required accept=".pdf,image/png,image/jpeg" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem; background: var(--bg-light);">
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">PDF, JPG or PNG (Max 5 MB)</div>
+              </div>
+
+              <div style="margin-bottom: 1.5rem; background: #F8FAFC; padding: 1rem; border-radius: var(--radius-sm); font-size: 0.8rem; color: var(--text-muted); border: 1px solid var(--border-color);">
+                <i class="fa-solid fa-lock" style="color: var(--medical-teal);"></i> By submitting, you grant AI Health Clinic consent to verify your credentials against the State Medical Council register / DigiLocker NAD repository in accordance with platform security rules.
+              </div>
+
+              <button type="submit" class="btn btn-primary" id="btn-submit-verification">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Submit Documents For Verification
+              </button>
+            </form>
+          </div>
+
+          <!-- Application Status Card (Screen 7) -->
+          <div class="card">
+            <h3 style="font-size: 1.15rem; color: var(--primary-navy); font-weight: 700; margin-bottom: 1.5rem;">Application Status</h3>
+
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              
+              <!-- Tracker Item 1 -->
+              <div style="display: flex; align-items: flex-start; gap: 0.85rem;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; background: #DEF7EC; color: #03543F; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0;">
+                  <i class="fa-solid fa-check"></i>
+                </div>
+                <div>
+                  <div style="font-size: 0.92rem; font-weight: 600; color: var(--primary-navy);">Document Submitted</div>
+                  <div style="font-size: 0.78rem; color: #059669; font-weight: 500;">Complete</div>
+                </div>
+              </div>
+
+              <!-- Tracker Item 2 -->
+              <div style="display: flex; align-items: flex-start; gap: 0.85rem;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; background: #FEF3C7; color: #92400E; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0;">
+                  <i class="fa-solid fa-clock"></i>
+                </div>
+                <div>
+                  <div style="font-size: 0.92rem; font-weight: 600; color: var(--primary-navy);">Academic Verification</div>
+                  <div style="font-size: 0.78rem; color: #D97706; font-weight: 500;">Pending (DigiLocker / NAD review)</div>
+                </div>
+              </div>
+
+              <!-- Tracker Item 3 -->
+              <div style="display: flex; align-items: flex-start; gap: 0.85rem;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; background: #FEF3C7; color: #92400E; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0;">
+                  <i class="fa-solid fa-clock"></i>
+                </div>
+                <div>
+                  <div style="font-size: 0.92rem; font-weight: 600; color: var(--primary-navy);">Medical Registration Check</div>
+                  <div style="font-size: 0.78rem; color: #D97706; font-weight: 500;">Pending (NMC / Council Match)</div>
+                </div>
+              </div>
+
+              <!-- Tracker Item 4 -->
+              <div style="display: flex; align-items: flex-start; gap: 0.85rem;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; background: #FEF3C7; color: #92400E; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0;">
+                  <i class="fa-solid fa-clock"></i>
+                </div>
+                <div>
+                  <div style="font-size: 0.92rem; font-weight: 600; color: var(--primary-navy);">Review by Admin</div>
+                  <div style="font-size: 0.78rem; color: #D97706; font-weight: 500;">In Queue</div>
+                </div>
+              </div>
+
+              <!-- Tracker Item 5 -->
+              <div style="display: flex; align-items: flex-start; gap: 0.85rem;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; background: #F1F5F9; color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0;">
+                  <i class="fa-solid fa-award"></i>
+                </div>
+                <div>
+                  <div style="font-size: 0.92rem; font-weight: 600; color: var(--text-muted);">Approved</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">Pending Review Decisions</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/auth.js"></script>
+  <script>
+    async function handleDoctorVerificationSubmit(event) {
+      event.preventDefault();
+      const btn = document.getElementById("btn-submit-verification");
+      btn.disabled = true;
+      btn.innerText = "Encrypting & Submitting...";
+
+      try {
+        await API.post("/api/doctors/applications", {
+          specialization: "General Physician",
+          qualification_summary: "MBBS, MD",
+          experience_years: 7,
+          medical_reg_number: "DMC-2018-7712",
+          registration_council: "Delhi Medical Council",
+          consultation_fee: 600.0,
+          bio: "General physician specializing in chronic and preventive wellness."
+        });
+
+        API.toast("Verification documents submitted! Under admin review.", "success");
+        setTimeout(() => {
+          window.location.href = "/static/html/doctor-dashboard.html";
+        }, 1200);
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerText = "Submit Documents For Verification";
+      }
+    }
+  </script>
+</body>
+</html>
