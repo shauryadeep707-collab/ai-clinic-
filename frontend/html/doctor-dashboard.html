@@ -45,10 +45,10 @@
 
         <div style="display: flex; align-items: center; gap: 1.5rem;">
           <div class="user-profile-badge" onclick="window.location.href='/static/html/settings.html'">
-            <div class="user-avatar" style="background:#DEF7EC; color:#03543F;">AV</div>
+            <div class="user-avatar" id="header-user-avatar" style="background:#DEF7EC; color:#03543F;">AV</div>
             <div class="user-info">
-              <div class="user-name">Dr. Amit Verma</div>
-              <div class="user-role">General Physician</div>
+              <div class="user-name" id="header-user-name">Dr. Amit Verma</div>
+              <div class="user-role" id="header-user-role">General Physician</div>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@
       <main class="content-body">
         
         <div style="margin-bottom: 2rem;">
-          <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--primary-navy);">Welcome, Dr. Amit</h2>
+          <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--primary-navy);" id="welcome-heading">Welcome, Dr. Amit</h2>
           <p style="color: var(--text-muted); font-size: 0.9rem;">Here's an overview of your clinical practice.</p>
         </div>
 

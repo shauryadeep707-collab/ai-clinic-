@@ -6,27 +6,135 @@
   <title>Login — AI Health Clinic</title>
   <link rel="stylesheet" href="/static/css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .portal-tab-btn {
+      flex: 1;
+      padding: 0.75rem 0.5rem;
+      border: 1px solid var(--border-color);
+      background: #F8FAFC;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: var(--transition);
+      border-radius: var(--radius-sm);
+    }
+    .portal-tab-btn.active {
+      background: white;
+      color: var(--medical-teal);
+      border-color: var(--medical-teal);
+      box-shadow: var(--shadow-sm);
+    }
+    .quick-account-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 0.85rem;
+      background: var(--bg-light);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+      transition: var(--transition);
+    }
+    .quick-account-pill:hover {
+      border-color: var(--medical-teal);
+      background: #F0FDFA;
+    }
+  </style>
 </head>
-<body style="background: var(--bg-light); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1.5rem;">
+<body style="background: var(--bg-light); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem 1rem;">
 
-  <div style="background: white; border-radius: var(--radius-lg); border: 1px solid var(--border-color); width: 100%; max-width: 440px; padding: 2.5rem; box-shadow: var(--shadow-lg);">
+  <div style="background: white; border-radius: var(--radius-lg); border: 1px solid var(--border-color); width: 100%; max-width: 480px; padding: 2.25rem; box-shadow: var(--shadow-lg);">
     
-    <div style="text-align: center; margin-bottom: 2rem;">
-      <a href="/static/html/index.html" style="display: inline-flex; align-items: center; gap: 0.75rem; font-size: 1.4rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.5rem;">
+    <!-- Brand Header -->
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+      <a href="/static/html/index.html" style="display: inline-flex; align-items: center; gap: 0.75rem; font-size: 1.4rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.35rem;">
         <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
         <span>AI Health Clinic</span>
       </a>
-      <h2 style="font-size: 1.35rem; color: var(--primary-navy); margin-top: 1rem;">Welcome Back</h2>
-      <p style="font-size: 0.9rem; color: var(--text-muted);">Secure access for Patients, Doctors, and Admins</p>
+      <h2 id="login-heading" style="font-size: 1.35rem; color: var(--primary-navy); margin-top: 0.75rem; font-weight: 700;">Patient Sign In</h2>
+      <p id="login-subheading" style="font-size: 0.88rem; color: var(--text-muted);">Access your medical records, health timeline, and AI consultations.</p>
     </div>
 
-    <!-- Quick Role Switcher Buttons for Demo Convenience -->
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
-      <button type="button" class="btn btn-outline btn-sm" onclick="quickFill('patient@clinic.com', 'Password@123')">Patient</button>
-      <button type="button" class="btn btn-outline btn-sm" onclick="quickFill('doctor@clinic.com', 'Password@123')">Doctor</button>
-      <button type="button" class="btn btn-outline btn-sm" onclick="quickFill('admin@clinic.com', 'Password@123')">Admin</button>
+    <!-- Role Switcher Tabs -->
+    <div style="display: flex; gap: 0.4rem; margin-bottom: 1.5rem; background: #F1F5F9; padding: 0.3rem; border-radius: var(--radius-md);">
+      <button type="button" class="portal-tab-btn active" id="tab-patient" onclick="switchPortalTab('patient')">
+        <i class="fa-solid fa-user"></i> Patient
+      </button>
+      <button type="button" class="portal-tab-btn" id="tab-doctor" onclick="switchPortalTab('doctor')">
+        <i class="fa-solid fa-user-doctor"></i> Doctor
+      </button>
+      <button type="button" class="portal-tab-btn" id="tab-admin" onclick="switchPortalTab('admin')">
+        <i class="fa-solid fa-user-shield"></i> Admin
+      </button>
     </div>
 
+    <!-- Quick-Fill Preset Accounts for Seamless Instant Login -->
+    <div style="margin-bottom: 1.5rem;">
+      <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;" id="preset-label">
+        Instant Demo Patient Access
+      </div>
+
+      <!-- Patient Presets -->
+      <div id="presets-patient">
+        <div class="quick-account-pill" onclick="quickFill('patient@clinic.com', 'Password@123', 'patient', 'Rohan Sharma')">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #CCFBF1; color: #0F766E; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center;">RS</div>
+            <div>
+              <div style="font-size: 0.88rem; font-weight: 700; color: var(--primary-navy);">Rohan Sharma</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">patient@clinic.com</div>
+            </div>
+          </div>
+          <span class="badge badge-teal" style="font-size: 0.7rem;">Click to Autofill</span>
+        </div>
+      </div>
+
+      <!-- Doctor Presets -->
+      <div id="presets-doctor" style="display: none;">
+        <div class="quick-account-pill" onclick="quickFill('doctor@clinic.com', 'Password@123', 'doctor', 'Dr. Amit Verma')">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #DEF7EC; color: #03543F; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center;">AV</div>
+            <div>
+              <div style="font-size: 0.88rem; font-weight: 700; color: var(--primary-navy);">Dr. Amit Verma</div>
+              <div style="font-size: 0.75rem; color: var(--medical-teal); font-weight: 600;">General Physician • doctor@clinic.com</div>
+            </div>
+          </div>
+          <span class="badge badge-verified" style="font-size: 0.7rem;">Verified Doctor</span>
+        </div>
+
+        <div class="quick-account-pill" onclick="quickFill('dr.priya@clinic.com', 'Password@123', 'doctor', 'Dr. Priya Mehta')">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #EFF6FF; color: #1E40AF; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center;">PM</div>
+            <div>
+              <div style="font-size: 0.88rem; font-weight: 700; color: var(--primary-navy);">Dr. Priya Mehta</div>
+              <div style="font-size: 0.75rem; color: #2563EB; font-weight: 600;">Cardiologist • dr.priya@clinic.com</div>
+            </div>
+          </div>
+          <span class="badge badge-verified" style="font-size: 0.7rem;">Verified Doctor</span>
+        </div>
+      </div>
+
+      <!-- Admin Presets -->
+      <div id="presets-admin" style="display: none;">
+        <div class="quick-account-pill" onclick="quickFill('admin@clinic.com', 'Password@123', 'admin', 'System Administrator')">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #FEF3C7; color: #92400E; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center;">AD</div>
+            <div>
+              <div style="font-size: 0.88rem; font-weight: 700; color: var(--primary-navy);">System Administrator</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">admin@clinic.com</div>
+            </div>
+          </div>
+          <span class="badge badge-warning" style="font-size: 0.7rem;">Admin Role</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Form -->
     <form onsubmit="handleLogin(event)">
       <div style="margin-bottom: 1.25rem;">
         <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.4rem;">Email Address</label>
@@ -41,17 +149,17 @@
         <input type="password" id="login-password" required placeholder="••••••••" value="Password@123" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.92rem; outline: none;">
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block" style="padding: 0.85rem; font-size: 0.95rem;">
-        <i class="fa-solid fa-right-to-bracket"></i> Sign In to Account
+      <button type="submit" class="btn btn-primary btn-block" id="btn-login-submit" style="padding: 0.85rem; font-size: 0.95rem;">
+        <i class="fa-solid fa-right-to-bracket"></i> Sign In to Portal
       </button>
     </form>
 
-    <div style="text-align: center; margin-top: 1.75rem; font-size: 0.88rem; color: var(--text-muted);">
-      Don't have an account yet? <a href="/static/html/register.html" style="color: var(--medical-teal); font-weight: 600;">Create Account</a>
+    <div style="text-align: center; margin-top: 1.5rem; font-size: 0.88rem; color: var(--text-muted);" id="signup-prompt">
+      Don't have an account yet? <a href="/static/html/register.html" style="color: var(--medical-teal); font-weight: 600;">Create Patient Account</a>
     </div>
 
-    <div style="margin-top: 1.5rem; text-align: center;">
-      <a href="/static/html/index.html" style="font-size: 0.82rem; color: var(--text-muted);"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+    <div style="margin-top: 1.25rem; text-align: center;">
+      <a href="/static/html/index.html" style="font-size: 0.82rem; color: var(--text-muted);"><i class="fa-solid fa-arrow-left"></i> Back to Homepage</a>
     </div>
 
   </div>
@@ -59,9 +167,49 @@
   <script src="/static/js/api.js"></script>
   <script src="/static/js/auth.js"></script>
   <script>
-    function quickFill(email, pwd) {
+    let currentRole = "patient";
+
+    function switchPortalTab(role) {
+      currentRole = role;
+      document.querySelectorAll(".portal-tab-btn").forEach(b => b.classList.remove("active"));
+      document.getElementById(`tab-${role}`).classList.add("active");
+
+      document.getElementById("presets-patient").style.display = (role === "patient") ? "block" : "none";
+      document.getElementById("presets-doctor").style.display = (role === "doctor") ? "block" : "none";
+      document.getElementById("presets-admin").style.display = (role === "admin") ? "block" : "none";
+
+      const heading = document.getElementById("login-heading");
+      const subheading = document.getElementById("login-subheading");
+      const presetLabel = document.getElementById("preset-label");
+      const signupPrompt = document.getElementById("signup-prompt");
+
+      if (role === "doctor") {
+        heading.innerText = "Doctor & Clinician Sign In";
+        subheading.innerText = "Access your verified practice, appointments, and diagnostic records.";
+        presetLabel.innerText = "Instant Demo Doctor Access";
+        signupPrompt.innerHTML = `Are you a doctor? <a href="/static/html/doctor-register.html" style="color: var(--medical-teal); font-weight: 600;">Join as a Verified Doctor</a>`;
+        quickFill("doctor@clinic.com", "Password@123", "doctor", "Dr. Amit Verma");
+      } else if (role === "admin") {
+        heading.innerText = "Administrator Portal";
+        subheading.innerText = "Audit doctor verification applications and security access logs.";
+        presetLabel.innerText = "Instant Demo Admin Access";
+        signupPrompt.innerHTML = `<span style="color:var(--text-muted);">Administrative access is restricted to verified system operators.</span>`;
+        quickFill("admin@clinic.com", "Password@123", "admin", "System Administrator");
+      } else {
+        heading.innerText = "Patient Sign In";
+        subheading.innerText = "Access your medical records, health timeline, and AI consultations.";
+        presetLabel.innerText = "Instant Demo Patient Access";
+        signupPrompt.innerHTML = `Don't have an account yet? <a href="/static/html/register.html" style="color: var(--medical-teal); font-weight: 600;">Create Patient Account</a>`;
+        quickFill("patient@clinic.com", "Password@123", "patient", "Rohan Sharma");
+      }
+    }
+
+    function quickFill(email, pwd, role, name) {
       document.getElementById('login-email').value = email;
       document.getElementById('login-password').value = pwd;
+      if (name) {
+        API.toast(`Autofilled credentials for: ${name}`, "info");
+      }
     }
   </script>
 </body>

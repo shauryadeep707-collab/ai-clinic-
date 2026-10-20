@@ -208,7 +208,9 @@
       try {
         const summary = await API.get("/api/patients/dashboard-summary");
         if (summary.user_name) {
-          document.getElementById("welcome-heading").innerText = `Good Morning, ${summary.user_name.split(' ')[0]}`;
+          const hour = new Date().getHours();
+          const greeting = hour < 12 ? 'Good Morning' : (hour < 17 ? 'Good Afternoon' : 'Good Evening');
+          document.getElementById('welcome-heading').innerText = `${greeting}, ${summary.user_name.split(' ')[0]}`;
         }
       } catch (e) {
         console.warn("Using pre-rendered summary", e);
