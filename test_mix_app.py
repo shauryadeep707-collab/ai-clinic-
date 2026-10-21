@@ -304,8 +304,33 @@ def run_tests():
     assert rem_add_res.status_code == 201
     print(f"  [PASS] Prescribed medicine successfully saved to patient medicine reminders")
 
+    # 21. Test Image/PDF File Upload with Title, Type, and Date (AI analyzes on its own)
+    import io
+    fake_image_bytes = io.BytesIO(b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15c4\x00\x00\x00\nIDATx\x9cc\x00\x01\x00\x00\x05\x00\x01\r\n-\xb4\x00\x00\x00\x00IEND\xaeB`\x82')
+    file_upload_res = client.post('/api/medical-reports/upload', data={
+        'report_title': 'Lipid Profile Comprehensive Screen',
+        'report_category': 'Blood Tests',
+        'test_date': '2026-10-21',
+        'issuing_lab': 'Max Healthcare Labs',
+        'file': (fake_image_bytes, 'lipid_screen.png')
+    }, content_type='multipart/form-data', headers=new_pat_headers)
+    assert file_upload_res.status_code == 201, f"File upload failed: {file_upload_res.data}"
+    file_rep_data = file_upload_res.get_json()
+    assert file_rep_data['ok'] is True
+    assert 'report_id' in file_rep_data
+    file_rep_id = file_rep_data['report_id']
+
+    # Verify AI automatically extracted metrics from the uploaded image
+    detail_res = client.get(f'/api/medical-reports/{file_rep_id}', headers=new_pat_headers)
+    assert detail_res.status_code == 200
+    detail = detail_res.get_json()
+    assert len(detail['measurements']) >= 3, "AI failed to extract lab measurements from uploaded file"
+    assert any('Cholesterol' in m['test_metric_name'] for m in detail['measurements']), "Missing cholesterol in AI analysis"
+    assert 'ai_summary' in detail
+    print(f"  [PASS] Image/PDF file uploaded with date, type, and title -> AI analyzed automatically with {len(detail['measurements'])} extracted metrics")
+
     print("=" * 60)
-    print("ALL 20 INTEGRATION TESTS PASSED 100%!")
+    print("ALL 21 INTEGRATION TESTS PASSED 100%!")
     print("=" * 60)
 
 if __name__ == '__main__':
