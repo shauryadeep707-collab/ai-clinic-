@@ -17,7 +17,7 @@ This guide outlines how to deploy **AI Health Clinic** to [Render](https://rende
    - **Region:** Oregon (or closest to your users)
    - **Plan:** Free
    - **Build Command:** `pip install -r requirements.txt`
-   - **Start Command:** `uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT`
+   - **Start Command:** `python run.py`
 6. Click **Apply**.
 7. Render will build and deploy your application. Once finished, you will receive a public HTTPS URL (e.g. `https://ai-health-clinic.onrender.com`).
 
@@ -37,7 +37,7 @@ If you prefer to configure manually without a Blueprint:
    - **Root Directory:** *(leave blank)*
    - **Runtime:** `Python 3`
    - **Build Command:** `pip install -r requirements.txt`
-   - **Start Command:** `uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT`
+   - **Start Command:** `python run.py`
    - **Plan Type:** `Free`
 5. In **Advanced** > **Environment Variables**, add:
    - `PYTHON_VERSION`: `3.12.0`
