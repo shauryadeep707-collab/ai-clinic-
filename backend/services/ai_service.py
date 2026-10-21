@@ -119,6 +119,8 @@ def get_followup_question(category, question_index, messages=None):
     Returns dict with 'question' and 'chips', or None if all asked.
     """
     followups = DEMO_FOLLOWUPS.get(category, DEMO_FOLLOWUPS['general'])
+    if question_index < 0:
+        question_index = 0
     if question_index >= len(followups):
         return None  # All questions asked
     return followups[question_index]
@@ -462,15 +464,16 @@ def process_message(messages, patient_profile=None):
     
     category = detect_category(user_messages[0].get('content', ''))
     
-    # question_count is the number of assistant messages (which is the number of questions asked)
-    followup = get_followup_question(category, question_count - 1)  # -1 because first assistant msg was the initial greeting-type prompt
+    # Calculate index of the next targeted follow-up question
+    q_index = question_count if question_count >= 0 else 0
+    followup = get_followup_question(category, q_index)
     
-    if followup and question_count <= 6:
+    if followup and q_index < 6:
         return {
             'type': 'followup',
             'question': followup['question'],
             'chips': followup['chips'],
-            'progress': f'Question {question_count} of ~6'
+            'progress': f'Question {q_index + 1} of ~{len(DEMO_FOLLOWUPS.get(category, DEMO_FOLLOWUPS["general"]))}'
         }
     
     # All questions asked - extract data

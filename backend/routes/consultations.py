@@ -611,10 +611,22 @@ def consultation_messages(consultation_id):
         general_guidance = "DO NOT DELAY. Call emergency services (112 / 108) immediately or visit the nearest emergency facility."
         prescribed_meds = []
         auto_suggestions = ["Call Emergency 112", "Find nearest cardiac hospital", "I took an Aspirin", "Notify family contact"]
+        question_options = []
+        question_progress = "Emergency Alert"
     else:
         is_urgent = False
         reply_data = process_message(past_messages, category)
-        reply_text = reply_data.get('reply') or reply_data.get('question') or "I understand. Could you please describe when the symptoms started and if they are worsening?"
+        reply_type = reply_data.get('type')
+        if reply_type == 'complete':
+            reply_text = "Thank you for answering these questions. Based on your symptoms, your triage assessment is complete. I have updated your clinical assessment, identified potential causes, and provided recommended supportive medications and next steps below."
+            question_options = []
+            question_progress = "Assessment Complete"
+        else:
+            reply_text = reply_data.get('reply') or reply_data.get('question') or "Could you please describe your symptoms and how long you have had them?"
+            question_options = reply_data.get('chips', [])
+            question_progress = reply_data.get('progress', '')
+            if question_options:
+                auto_suggestions = question_options
         
         structured = extract_structured_data_demo(past_messages, category)
         reported_symptoms = structured.get('main_symptoms') or [message_content]
@@ -646,6 +658,8 @@ def consultation_messages(consultation_id):
         'general_guidance': general_guidance,
         'prescribed_medicines': prescribed_meds,
         'auto_suggestions': auto_suggestions,
+        'question_options': question_options,
+        'question_progress': question_progress,
         'medical_sources': sources
     })
 

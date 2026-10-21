@@ -216,6 +216,13 @@
               <div class="chat-timestamp">Just now</div>
             </div>
           `;
+          currentSuggestions = [
+            "I have a fever and headache",
+            "Cough and sore throat",
+            "Stomach ache and nausea",
+            "Cold and running nose"
+          ];
+          renderSuggestions(currentSuggestions);
         }
         container.scrollTop = container.scrollHeight;
       } catch (err) {
@@ -299,6 +306,30 @@
         asstBubble.className = `chat-bubble assistant ${response.is_urgent_warning ? 'emergency' : ''}`;
         
         let bubbleContent = `<div>${response.assistant_reply.replace(/\n/g, '<br>')}</div>`;
+
+        // Render Question Progress Badge if in assessment flow
+        if (response.question_progress) {
+          bubbleContent += `
+            <div style="margin-top: 0.5rem; margin-bottom: 0.25rem;">
+              <span class="badge badge-info" style="font-size: 0.72rem; padding: 0.2rem 0.55rem; font-weight: 600;">
+                <i class="fa-solid fa-clipboard-question"></i> ${escapeHtml(response.question_progress)}
+              </span>
+            </div>
+          `;
+        }
+
+        // Render Interactive One-Click Response Chips for this question
+        if (response.question_options && response.question_options.length > 0) {
+          bubbleContent += `
+            <div class="question-choice-chips" style="display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.75rem;">
+              ${response.question_options.map(opt => `
+                <button type="button" class="btn btn-sm btn-outline" style="border-radius: 20px; font-size: 0.82rem; background: #FFFFFF; border-color: var(--medical-teal); color: var(--medical-teal-dark); font-weight: 600; padding: 0.35rem 0.8rem; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.background='var(--medical-teal-light)'; this.style.borderColor='var(--medical-teal)';" onmouseout="this.style.background='#FFFFFF';" onclick="selectSuggestion('${escapeHtml(opt)}')">
+                  ${escapeHtml(opt)}
+                </button>
+              `).join('')}
+            </div>
+          `;
+        }
 
         // 2. Render AI Prescribed Medicines Card inside chat
         if (response.prescribed_medicines && response.prescribed_medicines.length > 0) {

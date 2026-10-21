@@ -279,6 +279,9 @@ def run_tests():
     assert len(cdata['prescribed_medicines']) > 0, "No medicines prescribed by AI for headache"
     assert 'auto_suggestions' in cdata, "Missing auto_suggestions in AI response"
     assert len(cdata['auto_suggestions']) > 0, "No auto-suggestions provided"
+    assert 'question_options' in cdata, "Missing question_options in AI response"
+    assert len(cdata['question_options']) > 0, "No question options chips provided"
+    assert 'question_progress' in cdata, "Missing question_progress in AI response"
 
     # Verify prescribed medicine details & allergy safety check (Ananya is allergic to Aspirin/NSAID)
     med1 = cdata['prescribed_medicines'][0]
