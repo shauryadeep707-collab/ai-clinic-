@@ -46,11 +46,13 @@ def main():
     finally:
         database.close_connection(conn)
     
-    print(f'\n  Open http://localhost:5000 in your browser')
+    port = int(os.environ.get('PORT', 5000))
+    is_cloud = os.environ.get('PORT') is not None
+    print(f'\n  Open http://localhost:{port} in your browser')
     print('  Press Ctrl+C to stop\n')
     
     # Run Flask
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=not is_cloud)
 
 if __name__ == '__main__':
     main()
