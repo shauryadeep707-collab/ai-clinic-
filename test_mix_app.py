@@ -6,6 +6,8 @@ clinic frontend with bestproject backend.
 import sys
 import os
 import json
+import secrets
+import uuid
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -153,8 +155,68 @@ def run_tests():
     reminders = res.get_json()
     print(f"  [PASS] Medicine reminders retrieved ({len(reminders)} active)")
 
+    # 16. Test Doctor Registration Flow (is_verified initially 0)
+    import uuid
+    unique_suffix = uuid.uuid4().hex[:6]
+    doc_email = f"dr.rajesh.{unique_suffix}@clinic.com"
+    doc_reg_res = client.post('/api/auth/register', json={
+        'name': f'Dr. Rajesh Kumar {unique_suffix.upper()}',
+        'email': doc_email,
+        'password': 'Password@123',
+        'role': 'doctor',
+        'phone': '+91 98765 43210',
+        'specialization': 'Cardiologist',
+        'medical_degree': 'MBBS, MD (Cardiology)',
+        'registration_number': f'MCI-{secrets.randbelow(89999)+10000}',
+        'medical_council': 'Delhi Medical Council',
+        'experience_years': 12,
+        'fee': 1000.0,
+        'medical_college': 'AIIMS New Delhi',
+        'graduation_year': 2012,
+        'clinic_name': 'Heart Care & Vascular Clinic',
+        'address': '104 Ring Road',
+        'city': 'New Delhi'
+    })
+    assert doc_reg_res.status_code == 201 or doc_reg_res.status_code == 200, f"Doctor registration failed: {doc_reg_res.data}"
+    reg_data = doc_reg_res.get_json()
+    doc_token = reg_data['access_token']
+    doc_headers = {'Authorization': f'Bearer {doc_token}'}
+    assert reg_data.get('is_verified') == 0 or reg_data.get('data', {}).get('is_verified') == 0, "New doctor should have is_verified=0 before DigiLocker check"
+    print(f"  [PASS] Doctor registered with pending verification (is_verified=0)")
+
+    # 17. Test DigiLocker & NAD Credential Verification
+    verify_res = client.post('/api/doctors/digilocker-verify', json={
+        'medical_degree': 'MBBS, MD (Cardiology)',
+        'medical_college': 'AIIMS New Delhi',
+        'graduation_year': 2012,
+        'medical_reg_number': f'MCI-{secrets.randbelow(89999)+10000}',
+        'registration_council': 'Delhi Medical Council',
+        'specialization': 'Cardiologist',
+        'experience_years': 12,
+        'consultation_fee': 1000.0,
+        'clinic_name': 'Heart Care & Vascular Clinic',
+        'aadhaar_last_four': '9142'
+    }, headers=doc_headers)
+    assert verify_res.status_code == 200, f"DigiLocker verification failed: {verify_res.data}"
+    verify_data = verify_res.get_json()
+    assert verify_data['ok'] is True
+    assert verify_data['is_verified'] == 1
+    assert verify_data['digilocker_verified'] == 1
+    assert 'nad_certificate_id' in verify_data
+    assert verify_data['nad_certificate_id'].startswith('NAD-NMC-')
+    print(f"  [PASS] DigiLocker verification approved: Certificate {verify_data['nad_certificate_id']} issued, is_verified=1")
+
+    # 18. Test Doctor Verification Status Endpoint
+    status_res = client.get('/api/doctors/verification-status', headers=doc_headers)
+    assert status_res.status_code == 200
+    stat = status_res.get_json()
+    assert stat['is_verified'] == 1
+    assert stat['digilocker_verified'] == 1
+    assert stat['nad_certificate_id'] == verify_data['nad_certificate_id']
+    print(f"  [PASS] Doctor verification status API verified active NAD accreditation")
+
     print("=" * 60)
-    print("ALL 15 INTEGRATION TESTS PASSED 100%!")
+    print("ALL 18 INTEGRATION TESTS PASSED 100%!")
     print("=" * 60)
 
 if __name__ == '__main__':
