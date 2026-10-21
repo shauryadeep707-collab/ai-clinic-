@@ -84,15 +84,18 @@
               Search Verified Medicine Information & Pharmacy Destinations
             </label>
             <div style="display: flex; gap: 1rem;">
-              <input type="text" id="pharmacy-query" value="Paracetamol" placeholder="e.g. Paracetamol, Amoxicillin, Metformin, Cetirizine..." style="flex: 1; padding: 0.8rem 1.2rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem; outline: none;">
+              <input type="text" id="pharmacy-query" placeholder="e.g. Sunscreen, Paracetamol, Vitamin C, Cetirizine, Moisturizer, Amoxicillin..." oninput="handleLiveSearch(this.value)" autocomplete="off" style="flex: 1; padding: 0.8rem 1.2rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem; outline: none;">
               <button type="submit" class="btn btn-primary" style="padding: 0.8rem 1.8rem;">
                 <i class="fa-solid fa-magnifying-glass"></i> Search
               </button>
             </div>
             <!-- Quick Chips -->
             <div style="display: flex; gap: 0.5rem; margin-top: 0.85rem; align-items: center; flex-wrap: wrap;">
-              <span style="font-size: 0.8rem; color: var(--text-muted);">Quick lookups:</span>
+              <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Popular lookups:</span>
+              <button type="button" class="btn btn-outline btn-sm" onclick="setQuery('Sunscreen')">Sunscreen</button>
               <button type="button" class="btn btn-outline btn-sm" onclick="setQuery('Paracetamol')">Paracetamol</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="setQuery('Vitamin C')">Vitamin C</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="setQuery('Moisturizer')">Moisturizer</button>
               <button type="button" class="btn btn-outline btn-sm" onclick="setQuery('Amoxicillin')">Amoxicillin (Antibiotic)</button>
               <button type="button" class="btn btn-outline btn-sm" onclick="setQuery('Metformin')">Metformin</button>
               <button type="button" class="btn btn-outline btn-sm" onclick="setQuery('Cetirizine')">Cetirizine</button>
@@ -275,50 +278,59 @@
 
   <script src="/static/js/api.js"></script>
   <script src="/static/js/auth.js"></script>
-  <script>
-    function setQuery(q) {
-      document.getElementById("pharmacy-query").value = q;
-      handlePharmacySearch(new Event('submit'));
+      <script>
+    let searchDebounceTimer = null;
+
+    function escapeHtml(text) {
+      if (!text) return "";
+      const div = document.createElement("div");
+      div.innerText = text;
+      return div.innerHTML;
     }
 
-    async function handlePharmacySearch(event) {
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialQuery = urlParams.get('query') || urlParams.get('q') || 'Sunscreen';
+      document.getElementById("pharmacy-query").value = initialQuery;
+      executeSearch(initialQuery);
+    });
+
+    function handleLiveSearch(val) {
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = setTimeout(() => {
+        if (val && val.trim().length >= 2) {
+          executeSearch(val.trim());
+        }
+      }, 350);
+    }
+
+    function setQuery(q) {
+      document.getElementById("pharmacy-query").value = q;
+      executeSearch(q);
+    }
+
+    function handlePharmacySearch(event) {
       if (event && event.preventDefault) event.preventDefault();
       const query = document.getElementById("pharmacy-query").value.trim();
-      if (!query) return;
+      executeSearch(query);
+    }
+
+    async function executeSearch(query) {
+      if (!query || !query.trim()) return;
+      const q = query.trim();
 
       try {
         // 1. Search pharmacies and medicine catalogue
-        const data = await API.get(`/api/pharmacies/search?query=${encodeURIComponent(query)}`);
+        const data = await API.get(`/api/pharmacies/search?query=${encodeURIComponent(q)}`);
         
-        // 2. Perform patient allergy check
-        const allergyCheck = await API.post(`/api/medicines/allergy-check?medicine_name=${encodeURIComponent(query)}`);
-        const alertBox = document.getElementById("allergy-alert-box");
-
-        if (allergyCheck && allergyCheck.has_allergy_warning) {
-          alertBox.style.display = "block";
-          alertBox.innerHTML = `
-            <div style="background: #FEE2E2; border: 1px solid #EF4444; border-radius: var(--radius-md); padding: 1.25rem; color: #991B1B;">
-              <div style="font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem;">
-                <i class="fa-solid fa-triangle-exclamation"></i> Patient Specific Allergy Alert
-              </div>
-              <div>${allergyCheck.alerts.join('<br>')}</div>
-              <div style="font-size: 0.8rem; margin-top: 0.5rem; color: #B91C1C;">
-                Documented Allergies: ${allergyCheck.known_allergies}. Please consult your clinician before taking this medicine.
-              </div>
-            </div>
-          `;
-        } else {
-          alertBox.style.display = "none";
-        }
-
-        // 3. Update Medicine Info Card
-        if (data.medicine_info) {
+        // 2. Update Medicine Info Card immediately
+        if (data && data.medicine_info) {
           const m = data.medicine_info;
-          document.getElementById("med-name").innerText = m.generic_name;
+          document.getElementById("med-name").innerText = m.generic_name || q;
           document.getElementById("med-brands").innerText = m.brand_names ? `Brand Names: ${m.brand_names}` : '';
           document.getElementById("med-uses").innerText = m.common_uses || 'General therapeutic use.';
           document.getElementById("med-forms").innerText = m.dosage_forms || 'Standard formulations.';
-          document.getElementById("med-precautions").innerText = m.precautions || 'Consult doctor before administration.';
+          document.getElementById("med-precautions").innerText = m.precautions || 'Consult doctor or product label before administration.';
           document.getElementById("med-contra").innerText = m.contraindications || 'None specified.';
           document.getElementById("med-side-effects").innerText = m.potential_side_effects || 'None specified.';
           document.getElementById("med-source").innerText = m.source_reference || 'Medical reference catalogue.';
@@ -333,17 +345,63 @@
           }
         }
 
-        // 4. Update External Destination links
-        if (data.destinations) {
+        // 3. Update External Destination links for all 7 providers
+        if (data && data.destinations) {
           data.destinations.forEach(d => {
-            if (d.provider_name.includes("Amazon")) document.getElementById("link-amazon").href = d.search_url;
-            if (d.provider_name.includes("Blinkit")) document.getElementById("link-blinkit").href = d.search_url;
-            if (d.provider_name.includes("Swiggy")) document.getElementById("link-swiggy").href = d.search_url;
-            if (d.provider_name.includes("1mg")) document.getElementById("link-1mg").href = d.search_url;
-            if (d.provider_name.includes("Apollo")) document.getElementById("link-apollo").href = d.search_url;
-            if (d.provider_name.includes("PharmEasy")) document.getElementById("link-pharmeasy").href = d.search_url;
-            if (d.provider_name.includes("Netmeds")) document.getElementById("link-netmeds").href = d.search_url;
+            const pName = (d.provider_name || '').toLowerCase();
+            if (pName.includes("amazon")) {
+              const el = document.getElementById("link-amazon");
+              if (el) el.href = d.search_url;
+            }
+            if (pName.includes("blinkit")) {
+              const el = document.getElementById("link-blinkit");
+              if (el) el.href = d.search_url;
+            }
+            if (pName.includes("swiggy") || pName.includes("instamart")) {
+              const el = document.getElementById("link-swiggy");
+              if (el) el.href = d.search_url;
+            }
+            if (pName.includes("1mg")) {
+              const el = document.getElementById("link-1mg");
+              if (el) el.href = d.search_url;
+            }
+            if (pName.includes("apollo")) {
+              const el = document.getElementById("link-apollo");
+              if (el) el.href = d.search_url;
+            }
+            if (pName.includes("pharmeasy")) {
+              const el = document.getElementById("link-pharmeasy");
+              if (el) el.href = d.search_url;
+            }
+            if (pName.includes("netmeds")) {
+              const el = document.getElementById("link-netmeds");
+              if (el) el.href = d.search_url;
+            }
           });
+        }
+
+        // 4. Safe Patient Allergy Check (Non-blocking)
+        try {
+          const alertBox = document.getElementById("allergy-alert-box");
+          const allergyCheck = await API.post(`/api/medicines/allergy-check?medicine_name=${encodeURIComponent(q)}`, {});
+          if (allergyCheck && allergyCheck.has_allergy_warning && allergyCheck.alerts && allergyCheck.alerts.length > 0) {
+            alertBox.style.display = "block";
+            alertBox.innerHTML = `
+              <div style="background: #FEE2E2; border: 1px solid #EF4444; border-radius: var(--radius-md); padding: 1.25rem; color: #991B1B;">
+                <div style="font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem;">
+                  <i class="fa-solid fa-triangle-exclamation"></i> Patient Specific Allergy Alert
+                </div>
+                <div>${allergyCheck.alerts.join('<br>')}</div>
+                <div style="font-size: 0.8rem; margin-top: 0.5rem; color: #B91C1C;">
+                  Documented Allergies: ${escapeHtml(allergyCheck.known_allergies || 'None')}. Please consult your clinician before taking this medicine.
+                </div>
+              </div>
+            `;
+          } else {
+            alertBox.style.display = "none";
+          }
+        } catch (allergyErr) {
+          // Non-blocking
         }
 
       } catch (err) {

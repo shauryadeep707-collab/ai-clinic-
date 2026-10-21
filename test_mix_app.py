@@ -140,7 +140,14 @@ def run_tests():
     assert res.status_code == 200, f"Expected 200 on pharmacy search, got {res.status_code}"
     pharm_data = res.get_json()
     assert len(pharm_data['destinations']) >= 5, "Destinations incomplete"
-    print(f"  [PASS] Pharmacy search: {len(pharm_data['destinations'])} destination links generated")
+    
+    # Verify search for 'sun screen' and non-database queries
+    sun_res = client.get('/api/pharmacies/search?query=sun%20screen', headers=headers)
+    assert sun_res.status_code == 200
+    sun_data = sun_res.get_json()
+    assert 'Sunscreen' in sun_data['medicine_info']['generic_name']
+    assert sun_data['medicine_info']['is_prescription_required'] == 0
+    print(f"  [PASS] Pharmacy search: {len(pharm_data['destinations'])} destination links & 'sun screen' verified")
 
     # 14. Test Drug Allergy Safety Check
     res = client.post('/api/medicines/allergy-check?medicine_name=Amoxicillin', headers=headers)
