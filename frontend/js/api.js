@@ -2,7 +2,9 @@
  * AI HEALTH CLINIC - CENTRALIZED API CLIENT
  */
 
-const API_BASE = window.location.origin;
+const API_BASE = (typeof window !== "undefined" && (window.location.protocol === "file:" || window.location.port === "5500" || window.location.port === "3000"))
+  ? "http://localhost:5000"
+  : (window.location.origin || "");
 
 function getAuthToken() {
   return localStorage.getItem("token");

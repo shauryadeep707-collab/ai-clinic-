@@ -24,8 +24,11 @@ def allowed_file(filename):
 
 @reports_bp.route('/api/medical-reports', methods=['GET'])
 def list_reports():
-    """List medical reports strictly for the logged-in patient."""
+    """List medical reports strictly for the logged-in patient, falling back to default patient for demo visits."""
     user = get_current_user()
+    if not user:
+        # Fallback to default patient (Rohan Sharma) so demo visits load cleanly
+        user = database.fetch_one(g.db, "SELECT id, name, email, role FROM users WHERE role = 'patient' ORDER BY id ASC LIMIT 1")
     if not user:
         return jsonify([])
 
@@ -127,6 +130,9 @@ def delete_report(report_id):
 def upload_report():
     """Upload and analyze a diagnostic report (supports file upload or direct text entry)."""
     user = get_current_user()
+    if not user:
+        # Fallback to default patient (Rohan Sharma) so demo visitors can upload and test smoothly
+        user = database.fetch_one(g.db, "SELECT id, name, email, role FROM users WHERE role = 'patient' ORDER BY id ASC LIMIT 1")
     if not user:
         return jsonify({'ok': False, 'error': 'Please log in to upload reports', 'detail': 'Authentication required'}), 401
     patient_id = user['id']
