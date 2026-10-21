@@ -11,9 +11,17 @@ timeline_bp = Blueprint('timeline', __name__)
 
 @timeline_bp.route('/api/timeline', methods=['GET'])
 def get_timeline():
-    """Retrieve filtered health timeline events for the active patient."""
+    """Retrieve filtered health timeline events strictly for the active patient."""
     user = get_current_user()
-    patient_id = user['id'] if user else 18
+    if not user:
+        return jsonify([])
+
+    role = user.get('role', 'patient')
+    req_patient_id = request.args.get('patient_id')
+    if req_patient_id and role in ('admin', 'doctor'):
+        patient_id = int(req_patient_id)
+    else:
+        patient_id = user['id']
 
     event_type = request.args.get('event_type')
     date_from = request.args.get('date_from')

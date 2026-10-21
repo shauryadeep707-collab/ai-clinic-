@@ -93,112 +93,11 @@
               </tr>
             </thead>
             <tbody id="reports-table-body">
-              
-              <!-- Report Row 1 -->
-              <tr data-cat="Blood Tests">
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.85rem;">
-                    <div style="width: 38px; height: 38px; border-radius: var(--radius-sm); background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                      <i class="fa-solid fa-droplet"></i>
-                    </div>
-                    <div>
-                      <div style="font-weight: 600; color: var(--primary-navy);">Blood Test Report</div>
-                      <div style="font-size: 0.78rem; color: var(--text-muted);">Complete Blood Count</div>
-                    </div>
-                  </div>
-                </td>
-                <td>15 Oct 2024</td>
-                <td>15 Oct 2024</td>
-                <td style="text-align: right;">
-                  <button class="btn btn-outline btn-sm" onclick="viewReportDetail(1)">View</button>
-                  <button class="btn btn-outline btn-sm" style="padding: 0.35rem 0.6rem;" onclick="viewReportDetail(1)"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+              <tr>
+                <td colspan="4" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+                  <i class="fa-solid fa-spinner fa-spin"></i> Loading your medical records...
                 </td>
               </tr>
-
-              <!-- Report Row 2 -->
-              <tr data-cat="Imaging">
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.85rem;">
-                    <div style="width: 38px; height: 38px; border-radius: var(--radius-sm); background: #F0FDF4; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                      <i class="fa-solid fa-x-ray"></i>
-                    </div>
-                    <div>
-                      <div style="font-weight: 600; color: var(--primary-navy);">Chest X-Ray</div>
-                      <div style="font-size: 0.78rem; color: var(--text-muted);">Lungs</div>
-                    </div>
-                  </div>
-                </td>
-                <td>28 Sep 2024</td>
-                <td>28 Sep 2024</td>
-                <td style="text-align: right;">
-                  <button class="btn btn-outline btn-sm" onclick="viewReportDetail(2)">View</button>
-                  <button class="btn btn-outline btn-sm" style="padding: 0.35rem 0.6rem;" onclick="viewReportDetail(2)"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                </td>
-              </tr>
-
-              <!-- Report Row 3 -->
-              <tr data-cat="Imaging">
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.85rem;">
-                    <div style="width: 38px; height: 38px; border-radius: var(--radius-sm); background: #FAF5FF; color: #9333EA; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                      <i class="fa-solid fa-brain"></i>
-                    </div>
-                    <div>
-                      <div style="font-weight: 600; color: var(--primary-navy);">MRI Report</div>
-                      <div style="font-size: 0.78rem; color: var(--text-muted);">Brain MRI</div>
-                    </div>
-                  </div>
-                </td>
-                <td>12 Aug 2024</td>
-                <td>12 Aug 2024</td>
-                <td style="text-align: right;">
-                  <button class="btn btn-outline btn-sm" onclick="viewReportDetail(3)">View</button>
-                  <button class="btn btn-outline btn-sm" style="padding: 0.35rem 0.6rem;" onclick="viewReportDetail(3)"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                </td>
-              </tr>
-
-              <!-- Report Row 4 -->
-              <tr data-cat="Prescriptions">
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.85rem;">
-                    <div style="width: 38px; height: 38px; border-radius: var(--radius-sm); background: #FFF7ED; color: #EA580C; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                      <i class="fa-solid fa-prescription"></i>
-                    </div>
-                    <div>
-                      <div style="font-weight: 600; color: var(--primary-navy);">Prescription</div>
-                      <div style="font-size: 0.78rem; color: var(--text-muted);">Dr. Amit Verma</div>
-                    </div>
-                  </div>
-                </td>
-                <td>20 Jul 2024</td>
-                <td>20 Jul 2024</td>
-                <td style="text-align: right;">
-                  <button class="btn btn-outline btn-sm" onclick="viewReportDetail(4)">View</button>
-                  <button class="btn btn-outline btn-sm" style="padding: 0.35rem 0.6rem;" onclick="viewReportDetail(4)"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                </td>
-              </tr>
-
-              <!-- Report Row 5 -->
-              <tr data-cat="Other">
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.85rem;">
-                    <div style="width: 38px; height: 38px; border-radius: var(--radius-sm); background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                      <i class="fa-solid fa-vial"></i>
-                    </div>
-                    <div>
-                      <div style="font-weight: 600; color: var(--primary-navy);">Urine Test</div>
-                      <div style="font-size: 0.78rem; color: var(--text-muted);">Routine Urine Examination</div>
-                    </div>
-                  </div>
-                </td>
-                <td>05 Jun 2024</td>
-                <td>05 Jun 2024</td>
-                <td style="text-align: right;">
-                  <button class="btn btn-outline btn-sm" onclick="viewReportDetail(5)">View</button>
-                  <button class="btn btn-outline btn-sm" style="padding: 0.35rem 0.6rem;" onclick="viewReportDetail(5)"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                </td>
-              </tr>
-
             </tbody>
           </table>
         </div>
@@ -319,6 +218,114 @@
       document.getElementById("detail-modal").classList.remove("active");
     }
 
+    let userReports = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadMyReports();
+    });
+
+    async function loadMyReports() {
+      const tbody = document.getElementById("reports-table-body");
+      try {
+        const reports = await API.get("/api/medical-reports");
+        userReports = reports || [];
+        renderReportsTable(userReports);
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:2rem; color:#DC2626;">Failed to load reports. Please try logging in again.</td></tr>`;
+      }
+    }
+
+    function renderReportsTable(reports) {
+      const tbody = document.getElementById("reports-table-body");
+      if (!reports || reports.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align: center; padding: 3rem 1.5rem;">
+              <div style="width: 56px; height: 56px; border-radius: 50%; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 1rem auto;">
+                <i class="fa-solid fa-file-circle-plus"></i>
+              </div>
+              <h4 style="font-size: 1.15rem; color: var(--primary-navy); margin-bottom: 0.35rem; font-weight: 700;">No Medical Reports Yet</h4>
+              <p style="color: var(--text-muted); font-size: 0.88rem; max-width: 420px; margin: 0 auto 1.25rem auto;">
+                Your account has no uploaded lab documents or diagnostic tests yet. Upload a PDF/image or enter lab values directly to get grounded AI summaries and biomarker tracking.
+              </p>
+              <button class="btn btn-primary btn-sm" onclick="openUploadModal()">
+                <i class="fa-solid fa-upload"></i> Upload or Insert Report
+              </button>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      let html = "";
+      reports.forEach(r => {
+        const cat = r.report_category || 'Other';
+        let icon = "fa-file-medical";
+        let iconBg = "#EFF6FF";
+        let iconColor = "#2563EB";
+
+        if (cat.includes("Blood")) {
+          icon = "fa-droplet";
+          iconBg = "#EFF6FF";
+          iconColor = "#2563EB";
+        } else if (cat.includes("Imaging") || cat.includes("X-Ray")) {
+          icon = "fa-x-ray";
+          iconBg = "#F0FDF4";
+          iconColor = "#16A34A";
+        } else if (cat.includes("MRI") || cat.includes("Brain")) {
+          icon = "fa-brain";
+          iconBg = "#FAF5FF";
+          iconColor = "#9333EA";
+        } else if (cat.includes("Prescription")) {
+          icon = "fa-prescription";
+          iconBg = "#FFF7ED";
+          iconColor = "#EA580C";
+        }
+
+        const dateDisplay = r.test_date || r.upload_date || 'Recent';
+        const uploadDisplay = r.upload_date ? r.upload_date.slice(0, 10) : dateDisplay;
+
+        html += `
+          <tr data-cat="${escapeHtml(cat)}">
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <div style="width: 38px; height: 38px; border-radius: var(--radius-sm); background: ${iconBg}; color: ${iconColor}; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">
+                  <i class="fa-solid ${icon}"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 600; color: var(--primary-navy);">${escapeHtml(r.report_title || 'Medical Report')}</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">${escapeHtml(r.issuing_lab_or_hospital || cat)}</div>
+                </div>
+              </div>
+            </td>
+            <td>${escapeHtml(dateDisplay)}</td>
+            <td>${escapeHtml(uploadDisplay)}</td>
+            <td style="text-align: right;">
+              <button class="btn btn-outline btn-sm" onclick="viewReportDetail(${r.id || r.report_id})">
+                <i class="fa-solid fa-eye"></i> View & Explain
+              </button>
+              <button class="btn btn-outline btn-sm" style="color: #DC2626; border-color: #FECACA; margin-left: 0.35rem;" onclick="handleDeleteReport(${r.id || r.report_id})" title="Delete report">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    async function handleDeleteReport(reportId) {
+      if (!confirm("Are you sure you want to remove this medical report?")) return;
+      try {
+        await API.delete(`/api/medical-reports/${reportId}`);
+        API.toast("Report deleted successfully", "info");
+        await loadMyReports();
+      } catch (err) {
+        console.error("Failed to delete report", err);
+      }
+    }
+
     function selectCategory(cat, btn) {
       document.querySelectorAll(".btn-category").forEach(b => {
         b.classList.remove("active");
@@ -331,36 +338,48 @@
       btn.style.borderBottom = "2px solid var(--medical-teal)";
       btn.style.color = "var(--medical-teal)";
 
-      const rows = document.querySelectorAll("#reports-table-body tr");
-      rows.forEach(r => {
-        if (cat === "all" || r.getAttribute("data-cat") === cat) {
-          r.style.display = "";
-        } else {
-          r.style.display = "none";
-        }
-      });
+      if (cat === "all") {
+        renderReportsTable(userReports);
+      } else {
+        const filtered = userReports.filter(r => (r.report_category || '').toLowerCase().includes(cat.toLowerCase()));
+        renderReportsTable(filtered);
+      }
     }
 
     function filterReports() {
       const q = document.getElementById("report-search-input").value.toLowerCase();
-      const rows = document.querySelectorAll("#reports-table-body tr");
-      rows.forEach(r => {
-        const text = r.innerText.toLowerCase();
-        r.style.display = text.includes(q) ? "" : "none";
-      });
+      const filtered = userReports.filter(r => 
+        (r.report_title || '').toLowerCase().includes(q) ||
+        (r.report_category || '').toLowerCase().includes(q) ||
+        (r.issuing_lab_or_hospital || '').toLowerCase().includes(q)
+      );
+      renderReportsTable(filtered);
     }
 
     async function viewReportDetail(reportId) {
       try {
         const report = await API.get(`/api/medical-reports/${reportId}`);
-        document.getElementById("modal-report-title").innerText = report.report_title;
+        document.getElementById("modal-report-title").innerText = report.report_title || "Diagnostic Report";
         document.getElementById("modal-report-meta").innerText = `${report.test_date || 'Date not recorded'} • ${report.issuing_lab_or_hospital || 'Diagnostic Lab'}`;
-        document.getElementById("modal-download-btn").href = `/api/medical-reports/${reportId}/download`;
-
-        if (report.ai_summary) {
-          document.getElementById("modal-ai-summary").innerText = report.ai_summary.ai_summary_text;
-          document.getElementById("modal-questions").innerText = report.ai_summary.questions_for_doctor || "Discuss these lab values with your consulting physician.";
+        
+        const dlBtn = document.getElementById("modal-download-btn");
+        if (report.file_name) {
+          dlBtn.href = `/storage/reports/${report.file_name}`;
+          dlBtn.style.display = "inline-flex";
+        } else {
+          dlBtn.style.display = "none";
         }
+
+        const summaryText = typeof report.ai_summary === 'object' && report.ai_summary !== null 
+          ? (report.ai_summary.ai_summary_text || '') 
+          : (report.ai_summary_text || report.ai_summary || 'Your report has been securely indexed.');
+        
+        const questionsText = typeof report.ai_summary === 'object' && report.ai_summary !== null 
+          ? (report.ai_summary.questions_for_doctor || 'Discuss these lab findings with your consulting clinician.') 
+          : (report.questions_for_doctor || 'Discuss these lab findings with your consulting clinician.');
+
+        document.getElementById("modal-ai-summary").innerText = summaryText;
+        document.getElementById("modal-questions").innerText = questionsText;
 
         const measContainer = document.getElementById("modal-measurements-table");
         if (report.measurements && report.measurements.length) {
@@ -369,16 +388,16 @@
           report.measurements.forEach(m => {
             const badgeClass = m.status_flag === 'Normal' ? 'badge-success' : 'badge-danger';
             html += `<tr>
-              <td><strong>${m.test_metric_name}</strong></td>
-              <td>${m.observed_value} ${m.unit}</td>
-              <td>${m.reference_range_low || ''} - ${m.reference_range_high || ''} ${m.unit}</td>
-              <td><span class="badge ${badgeClass}">${m.status_flag}</span></td>
+              <td><strong>${escapeHtml(m.test_metric_name)}</strong></td>
+              <td>${escapeHtml(String(m.observed_value))} ${escapeHtml(m.unit || '')}</td>
+              <td>${escapeHtml(String(m.reference_range_low || ''))} - ${escapeHtml(String(m.reference_range_high || ''))} ${escapeHtml(m.unit || '')}</td>
+              <td><span class="badge ${badgeClass}">${escapeHtml(m.status_flag || 'Normal')}</span></td>
             </tr>`;
           });
           html += `</tbody></table>`;
           measContainer.innerHTML = html;
         } else {
-          measContainer.innerHTML = `<p style="font-size:0.85rem; color:var(--text-muted);">No structured numerical metrics found for this document type.</p>`;
+          measContainer.innerHTML = `<p style="font-size:0.85rem; color:var(--text-muted); background: #F8FAFC; padding: 0.75rem; border-radius: 4px;">No discrete numerical biomarkers were extracted for this document. Consult full document view.</p>`;
         }
 
         document.getElementById("detail-modal").classList.add("active");
@@ -396,6 +415,11 @@
       const customText = document.getElementById("upload-text-input").value.trim();
       const fileInput = document.getElementById("upload-file-input");
 
+      if (fileInput.files.length === 0 && !customText) {
+        alert("Please attach a report file (PDF/Image) or paste your test results in the text area.");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("report_title", title);
       formData.append("report_category", category);
@@ -408,19 +432,29 @@
 
       const submitBtn = document.getElementById("btn-submit-upload");
       submitBtn.disabled = true;
-      submitBtn.innerText = "Processing OCR & AI...";
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing with AI...';
 
       try {
-        const result = await API.upload("/api/medical-reports/upload", formData);
+        await API.upload("/api/medical-reports/upload", formData);
         API.toast("Report uploaded and analyzed successfully!", "success");
         closeUploadModal();
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        document.getElementById("upload-title").value = "";
+        document.getElementById("upload-text-input").value = "";
+        fileInput.value = "";
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Upload & Analyze with AI';
+        await loadMyReports();
       } catch (err) {
         submitBtn.disabled = false;
-        submitBtn.innerText = "Upload & Analyze with AI";
+        submitBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Upload & Analyze with AI';
       }
+    }
+
+    function escapeHtml(text) {
+      if (!text) return "";
+      const div = document.createElement('div');
+      div.innerText = String(text);
+      return div.innerHTML;
     }
   </script>
 </body>

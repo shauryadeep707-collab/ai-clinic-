@@ -215,8 +215,97 @@ def run_tests():
     assert stat['nad_certificate_id'] == verify_data['nad_certificate_id']
     print(f"  [PASS] Doctor verification status API verified active NAD accreditation")
 
+    # 19. Test New Patient Data Privacy & Inserting Own Reports
+    new_pat_suffix = uuid.uuid4().hex[:6]
+    pat_email = f"patient.ananya.{new_pat_suffix}@clinic.com"
+    pat_reg_res = client.post('/api/auth/register', json={
+        'name': f'Ananya Roy {new_pat_suffix.upper()}',
+        'email': pat_email,
+        'password': 'Password@123',
+        'role': 'patient',
+        'phone': '+91 99887 76655',
+        'allergies': 'Penicillin, Aspirin'
+    })
+    assert pat_reg_res.status_code == 200 or pat_reg_res.status_code == 201
+    pat_data = pat_reg_res.get_json()
+    new_pat_token = pat_data['access_token']
+    new_pat_headers = {'Authorization': f'Bearer {new_pat_token}'}
+
+    # Verify new patient sees ONLY their own reports (0 initially, NOT Rohan Sharma's reports)
+    initial_reps = client.get('/api/medical-reports', headers=new_pat_headers).get_json()
+    assert len(initial_reps) == 0, f"New patient should have 0 reports initially, got {len(initial_reps)}"
+    print(f"  [PASS] New patient data isolation verified: starts with 0 reports (isolated from other patients)")
+
+    # Patient inserts their own report via direct lab text input
+    upload_res = client.post('/api/medical-reports/upload', data={
+        'report_title': 'Ananya Lipid & Glucose Profile',
+        'report_category': 'Blood Tests',
+        'test_date': '2026-10-21',
+        'issuing_lab': 'Apollo Diagnostics',
+        'custom_raw_text': 'Total Cholesterol: 185 mg/dL. Fasting Blood Sugar: 92 mg/dL. HDL: 55 mg/dL. Triglycerides: 140 mg/dL.'
+    }, headers=new_pat_headers)
+    assert upload_res.status_code == 201, f"Report upload failed: {upload_res.data}"
+    up_data = upload_res.get_json()
+    assert up_data['ok'] is True
+    ananya_rep_id = up_data['report_id']
+    print(f"  [PASS] Patient successfully inserted own report #{ananya_rep_id} with direct lab text entry")
+
+    # Verify report is now in Ananya's list
+    ananya_reps = client.get('/api/medical-reports', headers=new_pat_headers).get_json()
+    assert len(ananya_reps) == 1
+    assert ananya_reps[0]['report_title'] == 'Ananya Lipid & Glucose Profile'
+
+    # Verify Rohan / clinic demo patient does NOT see Ananya's report
+    rohan_reps = client.get('/api/medical-reports', headers=headers).get_json()
+    assert not any(r['id'] == ananya_rep_id for r in rohan_reps), "Data privacy breach: Demo patient can see Ananya's report!"
+    print(f"  [PASS] Patient cross-contamination privacy confirmed: other patients cannot access this report")
+
+    # 20. Test AI Consultation with Prescribed Medicine & Auto-Suggestions
+    # Get or create active consultation session
+    active_chat_res = client.get('/api/consultations/active', headers=new_pat_headers)
+    assert active_chat_res.status_code == 200
+    active_chat = active_chat_res.get_json()
+    cid = active_chat['consultation_id']
+    assert len(active_chat['initial_suggestions']) > 0
+    print(f"  [PASS] Active AI consultation session initialized #{cid} with {len(active_chat['initial_suggestions'])} auto-suggestions")
+
+    # Send symptom message: headache
+    chat_res = client.post(f'/api/consultations/{cid}/messages', json={
+        'message_content': 'I have a throbbing headache since yesterday'
+    }, headers=new_pat_headers)
+    assert chat_res.status_code == 200
+    cdata = chat_res.get_json()
+    assert 'prescribed_medicines' in cdata, "Missing prescribed_medicines in AI response"
+    assert len(cdata['prescribed_medicines']) > 0, "No medicines prescribed by AI for headache"
+    assert 'auto_suggestions' in cdata, "Missing auto_suggestions in AI response"
+    assert len(cdata['auto_suggestions']) > 0, "No auto-suggestions provided"
+
+    # Verify prescribed medicine details & allergy safety check (Ananya is allergic to Aspirin/NSAID)
+    med1 = cdata['prescribed_medicines'][0]
+    assert 'Paracetamol' in med1['medicine_name']
+    assert med1['allergy_safe'] is True
+    assert 'dosage' in med1
+
+    # Check that Ibuprofen was flagged with allergy warning for Ananya
+    nsaid_med = [m for m in cdata['prescribed_medicines'] if 'Ibuprofen' in m['medicine_name']]
+    if nsaid_med:
+        assert nsaid_med[0]['allergy_safe'] is False, "Aspirin/NSAID allergy failed to flag on Ibuprofen!"
+        print(f"  [PASS] AI Allergy check passed: Flagged Ibuprofen for patient with documented NSAID allergy")
+
+    print(f"  [PASS] AI prescribed {med1['medicine_name']} ({med1['dosage']}) with {len(cdata['auto_suggestions'])} live suggestion chips")
+
+    # Patient adds the prescribed medicine to reminders
+    rem_add_res = client.post('/api/medicines/reminders', json={
+        'medicine_name': med1['medicine_name'],
+        'dosage': med1['dosage'],
+        'reminder_time': '09:00',
+        'days_of_week': 'Daily'
+    }, headers=new_pat_headers)
+    assert rem_add_res.status_code == 201
+    print(f"  [PASS] Prescribed medicine successfully saved to patient medicine reminders")
+
     print("=" * 60)
-    print("ALL 18 INTEGRATION TESTS PASSED 100%!")
+    print("ALL 20 INTEGRATION TESTS PASSED 100%!")
     print("=" * 60)
 
 if __name__ == '__main__':

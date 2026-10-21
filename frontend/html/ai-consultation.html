@@ -84,33 +84,22 @@
 
             <!-- Messages Stream -->
             <div class="chat-messages" id="chat-messages-container">
-              
-              <!-- Message 1 (Assistant Greeting) -->
-              <div class="chat-bubble assistant">
-                <div>Hello! I'm your AI health assistant. Please tell me your symptoms or health concern, and I'll ask a few questions to understand better.</div>
-                <div class="chat-timestamp">10:23 AM</div>
-              </div>
+              <!-- Initial greeting will be populated dynamically by initConsultation() -->
+            </div>
 
-              <!-- Message 2 (User Message) -->
-              <div class="chat-bubble user">
-                <div>I have a headache since yesterday.</div>
-                <div class="chat-timestamp">10:24 AM</div>
+            <!-- Auto-Suggestion Chips Bar (Screen 3 Interactive Triage) -->
+            <div class="chat-suggestions-wrapper" style="padding: 0.6rem 1.25rem 0.3rem 1.25rem; background: #F8FAFC; border-top: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.5rem; overflow-x: auto;">
+              <span style="font-size: 0.78rem; font-weight: 700; color: var(--medical-teal); display: flex; align-items: center; gap: 0.35rem; white-space: nowrap;">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Suggestions:
+              </span>
+              <div id="chat-suggestion-chips" style="display: flex; gap: 0.4rem; flex-wrap: nowrap; overflow-x: auto;">
+                <!-- Populated dynamically -->
               </div>
-
-              <!-- Message 3 (Assistant Follow-up) -->
-              <div class="chat-bubble assistant">
-                <div>I understand. Can you tell me:<br>
-                • When did the headache start?<br>
-                • Is it mild, moderate or severe?<br>
-                • Do you have any other symptoms like fever, nausea or vision changes?</div>
-                <div class="chat-timestamp">10:24 AM</div>
-              </div>
-
             </div>
 
             <!-- Input Bar -->
             <form onsubmit="handleSendMessage(event)" class="chat-input-bar">
-              <input type="text" id="chat-user-input" placeholder="Type your message here..." autocomplete="off">
+              <input type="text" id="chat-user-input" placeholder="Describe your symptoms or ask for guidance..." autocomplete="off" oninput="handleTypingSuggestions(this.value)">
               
               <button type="button" class="btn btn-outline" style="border-radius: var(--radius-full); width: 42px; height: 42px; padding: 0;" title="Voice Dictation" onclick="simulateVoiceInput()">
                 <i class="fa-solid fa-microphone"></i>
@@ -138,16 +127,21 @@
             <div>
               <div class="summary-section-title">Reported Symptoms</div>
               <ul style="list-style-type: disc; padding-left: 1.25rem; font-size: 0.88rem; color: var(--text-main);" id="summary-symptoms">
-                <li>Headache (since yesterday)</li>
+                <li>Tell AI your symptoms</li>
               </ul>
+            </div>
+
+            <div>
+              <div class="summary-section-title"><i class="fa-solid fa-pills" style="color:var(--medical-teal);"></i> Prescribed Medicines</div>
+              <div id="summary-prescriptions" style="display: flex; flex-direction: column; gap: 0.6rem;">
+                <p style="font-size: 0.82rem; color: var(--text-muted); font-style: italic;">Medicines and dosage prescribed by AI will appear here.</p>
+              </div>
             </div>
 
             <div>
               <div class="summary-section-title">Possible Causes</div>
               <ul style="list-style-type: disc; padding-left: 1.25rem; font-size: 0.88rem; color: var(--text-main);" id="summary-causes">
-                <li>Tension headache</li>
-                <li>Migraine</li>
-                <li>Other causes (based on answers)</li>
+                <li>Analyzing physiological factors...</li>
               </ul>
             </div>
 
@@ -156,17 +150,16 @@
               <ul style="list-style-type: disc; padding-left: 1.25rem; font-size: 0.88rem; color: var(--text-main);" id="summary-guidance">
                 <li>Rest and stay hydrated</li>
                 <li>Monitor for warning signs</li>
-                <li>Seek medical care if symptoms worsen</li>
               </ul>
             </div>
 
             <div>
               <div class="summary-section-title">Medical Sources</div>
               <div class="sources-list" id="summary-sources">
-                <a href="https://www.nhs.uk/conditions/headaches/" target="_blank" rel="noopener" class="source-item">
+                <a href="https://www.nhs.uk/conditions/" target="_blank" rel="noopener" class="source-item">
                   <i class="fa-solid fa-arrow-up-right-from-square"></i> NHS Guidelines
                 </a>
-                <a href="https://www.mayoclinic.org/diseases-conditions/tension-headache/symptoms-causes/syc-20353977" target="_blank" rel="noopener" class="source-item">
+                <a href="https://www.mayoclinic.org/" target="_blank" rel="noopener" class="source-item">
                   <i class="fa-solid fa-arrow-up-right-from-square"></i> Mayo Clinic
                 </a>
               </div>
@@ -190,17 +183,87 @@
   <script src="/static/js/api.js"></script>
   <script src="/static/js/auth.js"></script>
   <script>
-    let activeConsultationId = 1;
+    let activeConsultationId = null;
+    let currentSuggestions = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initConsultation();
+    });
+
+    async function initConsultation() {
+      const container = document.getElementById("chat-messages-container");
+      try {
+        const active = await API.get("/api/consultations/active");
+        activeConsultationId = active.consultation_id;
+        currentSuggestions = active.initial_suggestions || [];
+        renderSuggestions(currentSuggestions);
+
+        if (active.messages && active.messages.length > 0) {
+          container.innerHTML = "";
+          active.messages.forEach(msg => {
+            const isUser = msg.role === 'user';
+            const bubble = document.createElement("div");
+            bubble.className = `chat-bubble ${isUser ? 'user' : 'assistant'}`;
+            const time = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Earlier';
+            bubble.innerHTML = `<div>${escapeHtml(msg.content).replace(/\n/g, '<br>')}</div><div class="chat-timestamp">${time}</div>`;
+            container.appendChild(bubble);
+          });
+        } else {
+          const patientName = active.patient_name || 'there';
+          container.innerHTML = `
+            <div class="chat-bubble assistant">
+              <div>Hello ${escapeHtml(patientName)}! I'm your AI health clinic assistant. Tell me what symptoms or health concerns you are experiencing, and I'll prescribe safe guidance, medications, and next steps.</div>
+              <div class="chat-timestamp">Just now</div>
+            </div>
+          `;
+        }
+        container.scrollTop = container.scrollHeight;
+      } catch (err) {
+        console.warn("Could not fetch active consultation, creating fallback session", err);
+        startNewSession();
+      }
+    }
+
+    function renderSuggestions(chips) {
+      const bar = document.getElementById("chat-suggestion-chips");
+      if (!chips || chips.length === 0) {
+        bar.innerHTML = "";
+        return;
+      }
+      bar.innerHTML = chips.map(chip => `
+        <button type="button" class="btn btn-sm btn-outline" style="border-radius: 20px; font-size: 0.78rem; padding: 0.25rem 0.75rem; white-space: nowrap; background: white; border-color: #CBD5E1; color: var(--primary-navy);" onclick="selectSuggestion('${escapeHtml(chip)}')">
+          ${escapeHtml(chip)}
+        </button>
+      `).join('');
+    }
+
+    function selectSuggestion(text) {
+      const input = document.getElementById("chat-user-input");
+      input.value = text;
+      handleSendMessage(new Event('submit'));
+    }
+
+    function handleTypingSuggestions(val) {
+      if (!val) {
+        renderSuggestions(currentSuggestions);
+        return;
+      }
+      const q = val.toLowerCase();
+      const filtered = currentSuggestions.filter(s => s.toLowerCase().includes(q));
+      if (filtered.length > 0) {
+        renderSuggestions(filtered);
+      }
+    }
 
     async function handleSendMessage(event) {
-      event.preventDefault();
+      if (event && event.preventDefault) event.preventDefault();
       const input = document.getElementById("chat-user-input");
       const message = input.value.trim();
       if (!message) return;
 
       const container = document.getElementById("chat-messages-container");
       
-      // Append user bubble
+      // Append user message bubble
       const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const userBubble = document.createElement("div");
       userBubble.className = "chat-bubble user";
@@ -209,20 +272,99 @@
       input.value = "";
       container.scrollTop = container.scrollHeight;
 
+      // Show typing indicator
+      const typingIndicator = document.createElement("div");
+      typingIndicator.className = "chat-bubble assistant";
+      typingIndicator.id = "typing-bubble";
+      typingIndicator.innerHTML = `<div><i class="fa-solid fa-spinner fa-spin"></i> Analyzing symptoms, checking allergies & medications...</div>`;
+      container.appendChild(typingIndicator);
+      container.scrollTop = container.scrollHeight;
+
       try {
-        // Send to backend API
+        if (!activeConsultationId) {
+          const consult = await API.post("/api/consultations", { session_title: "General Assessment" });
+          activeConsultationId = consult.consultation_id;
+        }
+
         const response = await API.post(`/api/consultations/${activeConsultationId}/messages`, {
           message_content: message
         });
 
-        // Append assistant bubble
+        // Remove typing bubble
+        const tb = document.getElementById("typing-bubble");
+        if (tb) tb.remove();
+
+        // 1. Build assistant reply bubble
         const asstBubble = document.createElement("div");
         asstBubble.className = `chat-bubble assistant ${response.is_urgent_warning ? 'emergency' : ''}`;
-        asstBubble.innerHTML = `<div>${response.assistant_reply.replace(/\n/g, '<br>')}</div><div class="chat-timestamp">${now}</div>`;
+        
+        let bubbleContent = `<div>${response.assistant_reply.replace(/\n/g, '<br>')}</div>`;
+
+        // 2. Render AI Prescribed Medicines Card inside chat
+        if (response.prescribed_medicines && response.prescribed_medicines.length > 0) {
+          bubbleContent += `
+            <div style="margin-top: 1rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 0.85rem;">
+              <div style="font-weight: 700; color: var(--medical-teal-dark); font-size: 0.92rem; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.6rem;">
+                <i class="fa-solid fa-prescription-bottle-medical"></i> AI Clinical Prescription & Guidance
+              </div>
+          `;
+
+          response.prescribed_medicines.forEach((m, idx) => {
+            const isSafe = m.allergy_safe !== false;
+            const badgeClass = isSafe ? 'badge-success' : 'badge-danger';
+            const badgeText = m.allergy_status || (isSafe ? '✓ Safe' : '⚠️ Allergy Alert');
+
+            bubbleContent += `
+              <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.85rem; margin-bottom: 0.6rem; color: var(--text-main);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.35rem;">
+                  <div>
+                    <strong style="color: var(--primary-navy); font-size: 0.95rem;">${escapeHtml(m.medicine_name)}</strong>
+                    <div style="font-size: 0.78rem; color: var(--text-muted);">${escapeHtml(m.generic_name || m.purpose)}</div>
+                  </div>
+                  <span class="badge ${badgeClass}" style="font-size: 0.75rem;">${escapeHtml(badgeText)}</span>
+                </div>
+                
+                <div style="font-size: 0.83rem; margin-bottom: 0.4rem;">
+                  <strong>Dosage:</strong> ${escapeHtml(m.dosage)} • <strong>Timing:</strong> ${escapeHtml(m.timing || m.frequency)}
+                </div>
+                <div style="font-size: 0.78rem; color: #475569; margin-bottom: 0.6rem;">
+                  <i class="fa-solid fa-shield-heart" style="color:var(--medical-teal);"></i> ${escapeHtml(m.precautions || '')}
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  ${isSafe ? `
+                    <button type="button" class="btn btn-sm btn-primary" style="font-size: 0.78rem; padding: 0.3rem 0.6rem;" onclick="addMedicineReminder('${escapeHtml(m.medicine_name)}', '${escapeHtml(m.dosage)}')">
+                      <i class="fa-solid fa-bell"></i> Add Reminder
+                    </button>
+                  ` : ''}
+                  <a href="/static/html/pharmacy-connect.html?query=${encodeURIComponent(m.pharmacy_query || m.medicine_name)}" class="btn btn-sm btn-outline" style="font-size: 0.78rem; padding: 0.3rem 0.6rem;" target="_blank">
+                    <i class="fa-solid fa-cart-shopping"></i> Pharmacy Check
+                  </a>
+                </div>
+              </div>
+            `;
+          });
+
+          bubbleContent += `
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.35rem;">
+                *OTC guidance for primary symptomatic relief. Consult a verified clinician for persistent symptoms.
+              </div>
+            </div>
+          `;
+        }
+
+        bubbleContent += `<div class="chat-timestamp">${now}</div>`;
+        asstBubble.innerHTML = bubbleContent;
         container.appendChild(asstBubble);
         container.scrollTop = container.scrollHeight;
 
-        // Update Side Summary Panel
+        // 3. Update Auto-Suggestions Bar
+        if (response.auto_suggestions && response.auto_suggestions.length > 0) {
+          currentSuggestions = response.auto_suggestions;
+          renderSuggestions(currentSuggestions);
+        }
+
+        // 4. Update Right-Hand Consultation Summary Panel
         if (response.reported_symptoms && response.reported_symptoms.length) {
           document.getElementById("summary-symptoms").innerHTML = response.reported_symptoms.map(s => `<li>${escapeHtml(s)}</li>`).join('');
         }
@@ -231,6 +373,14 @@
         }
         if (response.general_guidance) {
           document.getElementById("summary-guidance").innerHTML = `<li>${escapeHtml(response.general_guidance)}</li><li>Monitor symptoms closely</li>`;
+        }
+        if (response.prescribed_medicines && response.prescribed_medicines.length) {
+          document.getElementById("summary-prescriptions").innerHTML = response.prescribed_medicines.map(m => `
+            <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.6rem; font-size: 0.82rem;">
+              <strong style="color: var(--primary-navy);">${escapeHtml(m.medicine_name)}</strong>
+              <div style="color: var(--text-muted); font-size: 0.76rem;">${escapeHtml(m.dosage)} (${escapeHtml(m.frequency)})</div>
+            </div>
+          `).join('');
         }
         if (response.medical_sources && response.medical_sources.length) {
           document.getElementById("summary-sources").innerHTML = response.medical_sources.map(src => `
@@ -241,7 +391,23 @@
         }
 
       } catch (err) {
+        const tb = document.getElementById("typing-bubble");
+        if (tb) tb.remove();
         console.error("Message send failed", err);
+      }
+    }
+
+    async function addMedicineReminder(medName, dosage) {
+      try {
+        await API.post("/api/medicines/reminders", {
+          medicine_name: medName,
+          dosage: dosage,
+          reminder_time: "09:00",
+          days_of_week: "Daily"
+        });
+        API.toast(`Reminder set: ${medName} daily at 09:00 AM!`, "success");
+      } catch (e) {
+        console.error("Could not schedule reminder", e);
       }
     }
 
@@ -254,10 +420,18 @@
         const container = document.getElementById("chat-messages-container");
         container.innerHTML = `
           <div class="chat-bubble assistant">
-            <div>Hello! I'm your AI health assistant. Please tell me your symptoms or health concern, and I'll ask a few questions to understand better.</div>
+            <div>Hello! I'm your AI health clinic assistant. What symptoms or health concern are you experiencing today?</div>
             <div class="chat-timestamp">Just now</div>
           </div>
         `;
+        currentSuggestions = [
+          "I have a mild headache since yesterday",
+          "Fever and body aches",
+          "Dry cough and sore throat",
+          "Stomach pain after dinner",
+          "Prescribe safe medicine"
+        ];
+        renderSuggestions(currentSuggestions);
         API.toast("New consultation session started", "info");
       } catch (err) {
         console.error("Could not start consultation", err);
@@ -267,11 +441,13 @@
     function simulateVoiceInput() {
       API.toast("Microphone activated (Speech recognition active)", "info");
       document.getElementById("chat-user-input").value = "I have a mild headache since yesterday";
+      handleTypingSuggestions("I have a mild headache since yesterday");
     }
 
     function escapeHtml(text) {
+      if (!text) return "";
       const div = document.createElement('div');
-      div.innerText = text;
+      div.innerText = String(text);
       return div.innerHTML;
     }
   </script>

@@ -94,104 +94,11 @@
           </div>
         </div>
 
-        <!-- Vertical Timeline Ledger (Matching Screen 5) -->
+        <!-- Vertical Timeline Ledger (Dynamic per Patient) -->
         <div class="timeline-wrapper" id="timeline-events-container">
-          
-          <!-- Event 1 -->
-          <div class="timeline-card-item" data-type="Report Upload">
-            <div class="timeline-card-node"><i class="fa-solid fa-droplet"></i></div>
-            <div style="font-size: 0.82rem; font-weight: 700; color: var(--medical-teal); margin-bottom: 0.35rem;">15 Oct 2024</div>
-            <div class="timeline-event-card">
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="width: 44px; height: 44px; border-radius: var(--radius-sm); background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                  <i class="fa-solid fa-file-waveform"></i>
-                </div>
-                <div>
-                  <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">Blood Test Report</h4>
-                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;">Complete Blood Count</p>
-                  <p style="font-size: 0.88rem; color: var(--text-main);"><strong style="color: var(--medical-teal);">Summary:</strong> All values within normal range except Vitamin D (low).</p>
-                </div>
-              </div>
-              <a href="/static/html/medical-reports.html?id=1" class="btn btn-outline btn-sm">View</a>
-            </div>
+          <div style="text-align: center; padding: 3rem; color: var(--text-muted); background: white; border-radius: var(--radius-md);">
+            <i class="fa-solid fa-spinner fa-spin"></i> Loading health timeline...
           </div>
-
-          <!-- Event 2 -->
-          <div class="timeline-card-item" data-type="AI Consultation">
-            <div class="timeline-card-node" style="background: #3B82F6;"><i class="fa-solid fa-robot"></i></div>
-            <div style="font-size: 0.82rem; font-weight: 700; color: #2563EB; margin-bottom: 0.35rem;">02 Oct 2024</div>
-            <div class="timeline-event-card">
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="width: 44px; height: 44px; border-radius: var(--radius-sm); background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                  <i class="fa-solid fa-comments"></i>
-                </div>
-                <div>
-                  <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">AI Consultation</h4>
-                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;">Headache Assessment</p>
-                  <p style="font-size: 0.88rem; color: var(--text-main);"><strong style="color: #2563EB;">Summary:</strong> Discussed headache symptoms. Advised rest and hydration.</p>
-                </div>
-              </div>
-              <a href="/static/html/ai-consultation.html?id=1" class="btn btn-outline btn-sm">View</a>
-            </div>
-          </div>
-
-          <!-- Event 3 -->
-          <div class="timeline-card-item" data-type="Report Upload">
-            <div class="timeline-card-node" style="background: #10B981;"><i class="fa-solid fa-x-ray"></i></div>
-            <div style="font-size: 0.82rem; font-weight: 700; color: #059669; margin-bottom: 0.35rem;">28 Sep 2024</div>
-            <div class="timeline-event-card">
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="width: 44px; height: 44px; border-radius: var(--radius-sm); background: #F0FDF4; color: #16A34A; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                  <i class="fa-solid fa-x-ray"></i>
-                </div>
-                <div>
-                  <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">X-Ray Report</h4>
-                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;">Chest X-Ray</p>
-                  <p style="font-size: 0.88rem; color: var(--text-main);"><strong style="color: #059669;">Summary:</strong> No significant abnormality detected.</p>
-                </div>
-              </div>
-              <a href="/static/html/medical-reports.html?id=2" class="btn btn-outline btn-sm">View</a>
-            </div>
-          </div>
-
-          <!-- Event 4 -->
-          <div class="timeline-card-item" data-type="Doctor Consultation">
-            <div class="timeline-card-node" style="background: #F97316;"><i class="fa-solid fa-user-doctor"></i></div>
-            <div style="font-size: 0.82rem; font-weight: 700; color: #EA580C; margin-bottom: 0.35rem;">20 Jul 2024</div>
-            <div class="timeline-event-card">
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="width: 44px; height: 44px; border-radius: var(--radius-sm); background: #FFF7ED; color: #EA580C; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                  <i class="fa-solid fa-stethoscope"></i>
-                </div>
-                <div>
-                  <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">Doctor Consultation</h4>
-                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;">Dr. Amit Verma (General Physician)</p>
-                  <p style="font-size: 0.88rem; color: var(--text-main);"><strong style="color: #EA580C;">Summary:</strong> Follow-up for fever. Prescribed medication.</p>
-                </div>
-              </div>
-              <a href="/static/html/doctors.html" class="btn btn-outline btn-sm">View</a>
-            </div>
-          </div>
-
-          <!-- Event 5 -->
-          <div class="timeline-card-item" data-type="Report Upload">
-            <div class="timeline-card-node" style="background: #0D9488;"><i class="fa-solid fa-vial"></i></div>
-            <div style="font-size: 0.82rem; font-weight: 700; color: var(--medical-teal); margin-bottom: 0.35rem;">05 Jun 2024</div>
-            <div class="timeline-event-card">
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="width: 44px; height: 44px; border-radius: var(--radius-sm); background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                  <i class="fa-solid fa-vial"></i>
-                </div>
-                <div>
-                  <h4 style="font-size: 1rem; color: var(--primary-navy); font-weight: 700;">Urine Test Report</h4>
-                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;">Routine Urine Examination</p>
-                  <p style="font-size: 0.88rem; color: var(--text-main);"><strong style="color: var(--medical-teal);">Summary:</strong> Normal results.</p>
-                </div>
-              </div>
-              <a href="/static/html/medical-reports.html?id=5" class="btn btn-outline btn-sm">View</a>
-            </div>
-          </div>
-
         </div>
 
       </main>
@@ -202,6 +109,8 @@
   <script src="/static/js/api.js"></script>
   <script src="/static/js/auth.js"></script>
   <script>
+    document.addEventListener("DOMContentLoaded", () => fetchTimeline());
+
     async function fetchTimeline() {
       const type = document.getElementById("timeline-type-filter").value;
       const fromDate = document.getElementById("timeline-from-date").value;

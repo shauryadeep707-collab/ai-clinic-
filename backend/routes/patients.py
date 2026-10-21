@@ -15,16 +15,12 @@ def get_dashboard_summary():
     user = get_current_user()
     if not user:
         return jsonify({
-            'user_name': 'Rohan Sharma',
-            'patient_id': 1,
-            'total_reports': 5,
-            'upcoming_appointments': 1,
-            'active_prescriptions': 2,
-            'recent_reports': [
-                {'report_id': 1, 'title': 'Blood Test Report', 'date': '15 Oct 2024', 'icon': 'fa-droplet'},
-                {'report_id': 2, 'title': 'X-Ray (Chest)', 'date': '28 Sep 2024', 'icon': 'fa-x-ray'},
-                {'report_id': 3, 'title': 'MRI Report', 'date': '12 Aug 2024', 'icon': 'fa-brain'}
-            ]
+            'user_name': 'Guest',
+            'patient_id': 0,
+            'total_reports': 0,
+            'upcoming_appointments': 0,
+            'active_prescriptions': 0,
+            'recent_reports': []
         })
 
     user_id = user['id']

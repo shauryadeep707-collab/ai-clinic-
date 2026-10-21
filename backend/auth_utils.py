@@ -32,17 +32,20 @@ def decode_access_token(token: str) -> dict:
 
 
 def get_current_user():
-    """Fetch the currently logged-in user from session or Bearer token.
+    """Fetch the currently logged-in user from Bearer token or session.
     Returns a dict with user info, or None if not logged in.
+    Bearer token takes precedence over session cookies for API requests.
     """
-    user_id = session.get('user_id')
+    user_id = None
+    auth_header = request.headers.get('Authorization', '')
+    if auth_header.startswith('Bearer '):
+        token = auth_header.split(' ', 1)[1].strip()
+        payload = decode_access_token(token)
+        if payload:
+            user_id = payload.get('sub') or payload.get('user_id')
+
     if not user_id:
-        auth_header = request.headers.get('Authorization', '')
-        if auth_header.startswith('Bearer '):
-            token = auth_header.split(' ', 1)[1].strip()
-            payload = decode_access_token(token)
-            if payload:
-                user_id = payload.get('sub') or payload.get('user_id')
+        user_id = session.get('user_id')
 
     if not user_id:
         return None
